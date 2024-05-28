@@ -1,3 +1,8 @@
+html {
+  font-size: 16px;
+  /* 將根元素（html）的字體大小設置為 16 像素 */
+}
+
 :root {
   --black: #000;
   --grey500: #333;
@@ -44,6 +49,7 @@ $body-5: 1rem;
 
 .title-5 {
   font-size: $title-5;
+  font-weight: 700;
 }
 
 // 內文樣式
@@ -65,6 +71,94 @@ $body-5: 1rem;
 
 .body-5 {
   font-size: $body-5;
+}
+
+//常用背景文字色
+
+.white{
+  color: var(--white);
+}
+
+.black{
+  color:var(--black);
+}
+
+.grey200{
+  color: var(--grey200);
+}
+
+.grey300 {
+  color: var(--grey300);
+}
+
+.grey400 {
+  color: var(--grey400);
+}
+
+.grey500 {
+  color: var(--grey500);
+}
+
+.bg-white{
+  background-color: var(--white);
+}
+
+.bg-black{
+  background-color: var(--black);
+}
+
+.bg-grey200 {
+  background-color: var(--grey200);
+}
+
+.bg-grey300 {
+  background-color: var(--grey300);
+}
+
+.bg-grey400 {
+  background-color: var(--grey400);
+}
+
+.bg-grey500 {
+  background-color: var(--grey500);
+}
+
+//常用layout
+
+.contain{
+  object-fit: contain;
+}
+
+.cover{
+  object-fit: cover;
+}
+
+.over-hidden{
+  overflow: hidden;
+}
+
+.over-scroll {
+  overflow: scroll;
+}
+
+.bd-2{
+  border: 0.125rem solid var(--black);
+}
+
+.bd-none{
+  border: none;
+}
+
+.bdrs-2{
+  border-radius: 0.125rem;
+}
+
+.bdrs-5{
+  border-radius: 0.3125rem;
+}
+
+.bdrs-10{
+  border-radius: 0.625rem;
 }
 
 //按鈕樣式

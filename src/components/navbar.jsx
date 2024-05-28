@@ -27,8 +27,8 @@ function Navbar() {
             </div>
           </div>
         <div className="navbar-right d-flex mr-4">
-          <div className="about title-3 mr-4" onClick={openAboutModal}>關於我們</div>
-          <div className="setting title-3 mr-4" onClick={openSettingsModal}>設定</div>
+          <div className="about title-3 mr-4" onClick={openAboutModal} style={{cursor:'pointer'}}>關於我們</div>
+          <div className="setting title-3 mr-4" onClick={openSettingsModal} style={{cursor:'pointer'}}>設定</div>
           <div className="collection title-3 mr-4">
             <Link to='/collection'>收集</Link></div>
         </div>
