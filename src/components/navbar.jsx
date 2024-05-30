@@ -17,7 +17,7 @@ function Navbar() {
       style={{
       backgroundColor:'var(--white)',
       position:'fixed' , 
-      height:'2rem',
+      height:'5rem',
       borderBottom:'2px solid black',
       zIndex:'100'
       }}>

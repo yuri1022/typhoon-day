@@ -1,0 +1,38 @@
+.choosepage{
+  height: 100vh;
+  .choose-container {
+      padding-top: 5rem;
+      .choosetop {
+        height: 10vh;
+        }
+      .choosebot{
+        height: 90vh;
+        .choose-item{
+          padding: 0;
+          background-size: cover;
+          position: relative;
+        &.active::after {
+         content: '';
+         position: absolute;
+         top: 0;
+         left: 0;
+         width: 100%;
+         height: 100%;
+         background-color: rgba(0, 0, 0, 0.7); // 黑色，透明度70%
+         z-index: 1;
+        }
+          .item{
+          background-color: rgba(255, 255, 255, 0.6);
+          height: 10vh;
+          }
+        }
+      }
+      .button{
+        position: fixed;
+        bottom: 10%;
+        left: 50%;
+        z-index: 2;
+        transform: translateX(-50%);
+      }
+    }
+}

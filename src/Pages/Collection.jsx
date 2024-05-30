@@ -1,6 +1,7 @@
 import React , {useState} from 'react';
 import Navbar from '../components/navbar';
 import Major from '../assets/svg/major_collection.svg';
+import Expert from '../assets/svg/expert_collection.svg'
 import CharacterItem from '../components/characteritem';
 
 const characters = [
@@ -11,7 +12,7 @@ const characters = [
   },
   {
     name: '氣象學家',
-    image: Major,
+    image: Expert,
     description: '專業預測天氣，提供關於颱風、降雨等氣象事件的專業建議和意見。'
   },
   {
@@ -61,7 +62,7 @@ function Collection() {
       <Navbar />
       <div className="collection-page" style={{ paddingTop: '5rem' }}>
         <div className="title title-3 mt-2 ml-4">角色簡介</div>
-        <div className="collection-container w100 h100 d-flex flex-wrap pl-4 pr-4 mt-1" style={{gap:'0.5rem'}}>
+        <div className="collection-container w100 h100 d-flex flex-wrap col-12 pl-4 pr-4 mt-1" style={{gap:'0.5rem'}}>
         {characters.map((character, index) => (
             <CharacterItem
               key={index}
@@ -72,20 +73,32 @@ function Collection() {
           ))}
         </div>
         <div className="title title-3 mt-2 ml-4">結局解鎖</div>
-        <div className="ending-container h100 d-flex flex-wrap ml-4 mr-4 mt-1" style={{maxWidth:'1280px'}}>
-          <div className="ending-item bg-black white bdrs-5 d-flex justify-content-between align-items-center pl-2 pr-2 mr-2 mb-2" style={{width:'23.375rem',height:'4rem'}}>
+        <div className="ending-container h100 d-flex flex-wrap ml-4 mt-1 col-12" style={{maxWidth:'1280px'}}>
+          <div className="ending-item bg-black white bdrs-5 d-flex justify-content-between align-items-center pl-2 pr-2 mr-2 mb-2" style={{width:'21.375rem',height:'4rem'}}>
             <div className="title-4">結局</div>
             <div className="body-4">已解鎖</div>
             </div>
-          <div className="ending-item bg-black white bdrs-5 d-flex justify-content-between align-items-center pl-2 pr-2 mr-2 mb-2" style={{width:'23.375rem',height:'4rem'}}>
+          <div className="ending-item bg-black white bdrs-5 d-flex justify-content-between align-items-center pl-2 pr-2 mr-2 mb-2" style={{width:'21.375rem',height:'4rem'}}>
             <div className="title-4">結局</div>
             <div className="body-4">已解鎖</div>
             </div>
-          <div className="ending-item bg-black white bdrs-5 d-flex justify-content-between align-items-center pl-2 pr-2 mr-2 mb-2" style={{width:'23.375rem',height:'4rem'}}>
+          <div className="ending-item bg-black white bdrs-5 d-flex justify-content-between align-items-center pl-2 pr-2 mr-2 mb-2" style={{width:'21.375rem',height:'4rem'}}>
             <div className="title-4">結局</div>
             <div className="body-4">已解鎖</div>
             </div>  
-          <div className="ending-item bg-black white bdrs-5 d-flex justify-content-between align-items-center pl-2 pr-2 mr-2 mb-2" style={{width:'23.375rem',height:'4rem'}}>
+          <div className="ending-item bg-black white bdrs-5 d-flex justify-content-between align-items-center pl-2 pr-2 mr-2 mb-2" style={{width:'21.375rem',height:'4rem'}}>
+            <div className="title-4">結局</div>
+            <div className="body-4">已解鎖</div>
+            </div> 
+                      <div className="ending-item bg-black white bdrs-5 d-flex justify-content-between align-items-center pl-2 pr-2 mr-2 mb-2" style={{width:'21.375rem',height:'4rem'}}>
+            <div className="title-4">結局</div>
+            <div className="body-4">已解鎖</div>
+            </div> 
+                      <div className="ending-item bg-black white bdrs-5 d-flex justify-content-between align-items-center pl-2 pr-2 mr-2 mb-2" style={{width:'21.375rem',height:'4rem'}}>
+            <div className="title-4">結局</div>
+            <div className="body-4">已解鎖</div>
+            </div> 
+                      <div className="ending-item bg-black white bdrs-5 d-flex justify-content-between align-items-center pl-2 pr-2 mr-2 mb-2" style={{width:'21.375rem',height:'4rem'}}>
             <div className="title-4">結局</div>
             <div className="body-4">已解鎖</div>
             </div> 

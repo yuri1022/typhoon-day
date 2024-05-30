@@ -1,8 +1,3 @@
-html {
-  font-size: 16px;
-  /* 將根元素（html）的字體大小設置為 16 像素 */
-}
-
 :root {
   --black: #000;
   --grey500: #333;
@@ -137,8 +132,12 @@ $body-5: 1rem;
   overflow: hidden;
 }
 
-.over-scroll {
-  overflow: scroll;
+.over-x-scroll {
+  overflow-x: auto;
+}
+
+.over-y-scroll {
+  overflow-y: auto;
 }
 
 .bd-2{
@@ -163,35 +162,95 @@ $body-5: 1rem;
 
 //按鈕樣式
 
+//全部共用
+.btn,
+.btn-sm,
+.btn-xs,
+.btn-white,
+.btn-white-sm,
+.btn-white-xs{
+    font-size: $title-5;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border-radius: 0.3125rem;
+}
+
+//黑色共用
+.btn,
+.btn-sm,
+.btn-xs{
+  background-color: var(--black);
+  color: var(--white);
+  border: 2px solid var(--black);
+}
+
+//白色共用
+
+.btn-white,
+.btn-white-sm,
+.btn-white-xs{
+    background-color: var(--white);
+    color: var(--black);
+    border: 2px solid var(--black);
+}
+
 .btn {
   width: 12.5rem;
   height: 3.75rem;
   padding: 0 1.5rem;
-  border-radius: 0.3125rem;
-  background-color: var(--black);
-  color: var(--white);
-  border: none;
 }
 
 .btn-white{
-    width: 12.5rem;
-      height: 3.75rem;
-      padding: 0 1.5rem;
-      border-radius: 0.3125rem;
-      background-color: var(--white);
-      color: var(--black);
-      border: 2px solid var(--black);
+  width: 12.5rem;
+  height: 3.75rem;
+  padding: 0 1.5rem;
 }
 
-.btn:hover{
+.btn-xs{
+    width: 4.5rem;
+    height: 2.2rem;
+    padding: 0 1rem;
+}
+
+.btn-sm {
+  width: 5.8rem;
+  height: 3.75rem;
+  padding: 0 1.5rem;
+}
+
+.btn-white-sm{
+  width: 5.8rem;
+  height: 3.75rem;
+  padding: 0 1.5rem;
+}
+
+.btn-white-xs {
+  width: 4.5rem;
+  height: 2.2rem;
+  padding: 0 1rem;
+}
+
+//hover樣式
+
+.btn:hover,
+.btn-sm:hover,
+.btn-xs:hover{
     background: var(--grey400);
+    border: 2px solid var(--grey400);
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
-.btn-white:hover {
+.btn-white:hover,
+.btn-white-sm:hover,
+.btn-white-xs:hover {
   background: var(--grey300);
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
+
+
 
 a:-webkit-any-link {
   text-decoration: none;

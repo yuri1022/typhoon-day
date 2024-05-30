@@ -168,6 +168,22 @@
 }
 
 // Additional spacing utilities for mt-2 to mt-5
+.m-2 {
+  margin: 1rem !important;
+}
+
+.m-3 {
+  margin: 1.5rem !important;
+}
+
+.m-4 {
+  margin: 2rem !important;
+}
+
+.m-5 {
+  margin: 2.5rem !important;
+}
+
 .mt-2 {
   margin-top: 1rem !important;
 }
@@ -319,21 +335,4 @@
 
 .h100{
   height: 100%;
-}
-
-.col-3{
-  max-width: 25%;
-  flex: 0 0 25%;
-}
-
-.col-6{
-  max-width: 50%;
-}
-
-.col-9{
-  max-width: 75%;
-}
-
-.col-12{
-  max-width: 100%;
 }

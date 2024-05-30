@@ -4,6 +4,7 @@ import HomePage from './Pages/HomePage';
 import StartPage from './Pages/StartPage';
 import Collection from './Pages/Collection';
 import MainPage from './Pages/MainPage';
+import ChooseAreaPage from './Pages/ChooseAreaPage';
 import './App.scss';
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
           <Route path="/main" element={<MainPage />} />
           <Route path="/home" element={<HomePage />} />
           <Route path="/collection" element={<Collection />} />
+          <Route path="/area" element={<ChooseAreaPage />} />
         </Routes>
     </Router>
   );
