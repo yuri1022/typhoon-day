@@ -11,6 +11,7 @@
           padding: 0;
           background-size: cover;
           position: relative;
+          transition: background-color 0.3ms ease-out;
         &.active::after {
          content: '';
          position: absolute;

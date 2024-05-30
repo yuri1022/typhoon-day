@@ -166,6 +166,7 @@ $body-5: 1rem;
 .btn,
 .btn-sm,
 .btn-xs,
+.btn-xl,
 .btn-white,
 .btn-white-sm,
 .btn-white-xs{
@@ -181,7 +182,8 @@ $body-5: 1rem;
 //黑色共用
 .btn,
 .btn-sm,
-.btn-xs{
+.btn-xs,
+.btn-xl{
   background-color: var(--black);
   color: var(--white);
   border: 2px solid var(--black);
@@ -215,6 +217,12 @@ $body-5: 1rem;
     padding: 0 1rem;
 }
 
+.btn-xl{
+    width: 100%;
+    height: 3.75rem;
+    padding: 0 1.5rem;
+}
+
 .btn-sm {
   width: 5.8rem;
   height: 3.75rem;
@@ -237,7 +245,8 @@ $body-5: 1rem;
 
 .btn:hover,
 .btn-sm:hover,
-.btn-xs:hover{
+.btn-xs:hover,
+.btn-xl:hover{
     background: var(--grey400);
     border: 2px solid var(--grey400);
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
