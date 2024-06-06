@@ -1,20 +1,15 @@
 import React from 'react';
-import Major from '../assets/svg/major.svg';
 import { Button } from 'react-bootstrap';
-import Navbar from '../components/navbar'
+import Navbar from '../components/navbar';
+import '../assets/scss/startpage.scss';
 
 function StartPage() {
   return (
     <div className='homepage' style={{height:'100vh'}}>
       <Navbar />
       <div className="home-container w100 h100 d-flex">
-        <div className="section d-flex flex-column justify-content-center align-items-center w100 h100" style={{
-            backgroundImage: `url(${Major})`,
-            backgroundSize: '30%',
-            backgroundRepeat: 'no-repeat',
-            backgroundPosition: 'right bottom'
-          }}>
-            <div className="section-container d-flex flex-column align-items-center">
+        <div className="home-section d-flex flex-column justify-content-center align-items-center w100 h100">
+            <div className="section-container d-flex flex-column align-items-center pl-2 pr-2">
           <div className='section title-1 mb-1'>
           市長，我想放颱風假
         </div>

@@ -20,21 +20,39 @@ $body-2: 2.369rem;
 $body-3: 1.777rem;
 $body-4: 1.333rem;
 $body-5: 1rem;
+$body-4-mb: 0.85rem;
+$body-5-mb:0.75rem;
+
+// 斷點設置
+$grid-breakpoints: (
+  xs: 0px,
+  md: 768px,
+  xl: 1200px
+);
 
 // 標題樣式
 .title-1 {
   font-size: $title-1;
   font-weight: 700;
+    @media (max-width: map-get($grid-breakpoints, md)) {
+        font-size: $title-3;
+      }
 }
 
 .title-2 {
   font-size: $title-2;
   font-weight: 700;
+      @media (max-width: map-get($grid-breakpoints, md)) {
+          font-size: $title-4;
+        }
 }
 
 .title-3 {
   font-size: $title-3;
   font-weight: 700;
+      @media (max-width: map-get($grid-breakpoints, md)) {
+          font-size: $title-5;
+        }
 }
 
 .title-4 {
@@ -50,22 +68,37 @@ $body-5: 1rem;
 // 內文樣式
 .body-1 {
   font-size: $body-1;
+      @media (max-width: map-get($grid-breakpoints, md)) {
+          font-size: $body-3;
+        }
 }
 
 .body-2 {
   font-size: $body-2;
+      @media (max-width: map-get($grid-breakpoints, md)) {
+          font-size: $body-4;
+        }
 }
 
 .body-3 {
   font-size: $body-3;
+      @media (max-width: map-get($grid-breakpoints, md)) {
+          font-size: $body-5;
+        }
 }
 
 .body-4 {
   font-size: $body-4;
+        @media (max-width: map-get($grid-breakpoints, md)) {
+            font-size: $body-4-mb;
+          }
 }
 
 .body-5 {
   font-size: $body-5;
+          @media (max-width: map-get($grid-breakpoints, md)) {
+              font-size: $body-5-mb;
+            }
 }
 
 //常用背景文字色

@@ -1,0 +1,21 @@
+
+
+    .home-container {
+      .home-section {
+        background-image: url('../svg/major.svg');
+        background-size:30%;
+        background-repeat: no-repeat;
+        background-position: right bottom;
+      }
+    }
+
+
+
+@media screen and (max-width:768px) {
+  .home-container{
+    .home-section{
+      background-image: none;
+    }
+  }
+}
+
