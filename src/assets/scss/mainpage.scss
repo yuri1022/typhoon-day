@@ -20,3 +20,19 @@ cursor: pointer;
   display: block;
   height: 10.8rem;
 }
+
+.img-circle{
+   width:3.75rem;
+   height:3.75rem;
+   border-radius:50%;
+}
+
+@media screen and (max-width:768px) {
+  .main-page-container{
+    flex-direction: column;
+  }
+    .img-circle {
+      width: 2.8rem;
+      height: 2.8rem;
+    }
+}

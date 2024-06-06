@@ -23,52 +23,28 @@ html {
 *::after {
   box-sizing: border-box;
 }
-
-// 栅格系统的配置变量
 $grid-columns: 12;
 $grid-gutter-width: 1rem;
 
-// 断点
 $grid-breakpoints: (
   xs: 0,
-  // Extra small devices (portrait phones, less than 576px)
   sm: 576px,
-  // Small devices (landscape phones, 576px and up)
   md: 768px,
-  // Medium devices (tablets, 768px and up)
   lg: 992px,
-  // Large devices (desktops, 992px and up)
-  xl: 1200px // Extra large devices (large desktops, 1200px and up)
+  xl: 1200px
 );
 
-// 生成栅格列样式的mixin
-// 栅格系统的配置变量
-$grid-columns: 12;
-$grid-gutter-width: 1rem;
-
-// 断点
-$grid-breakpoints: (
-  xs: 0,
-  // Extra small devices (portrait phones, less than 768px)
-  md: 768px,
-  // Medium devices (tablets, 768px and up)
-  xl: 1200px // Extra large devices (large desktops, 1200px and up)
-);
-
-// 生成栅格列样式的mixin
 @mixin make-col($size, $columns) {
-  @if $size =='xs' {
-    @for $i from 1 through $columns {
+  @for $i from 1 through $columns {
+    @if $size =='xs' {
       .col-#{$i} {
         flex: 0 0 percentage($i / $columns);
         max-width: percentage($i / $columns);
       }
     }
-  }
 
-  @else {
-    @media (min-width: map-get($grid-breakpoints, $size)) {
-      @for $i from 1 through $columns {
+    @else {
+      @media (min-width: map-get($grid-breakpoints, $size)) {
         .col-#{$size}-#{$i} {
           flex: 0 0 percentage($i / $columns);
           max-width: percentage($i / $columns);
@@ -78,12 +54,10 @@ $grid-breakpoints: (
   }
 }
 
-// 生成所有断点的栅格列样式
 @each $breakpoint, $value in $grid-breakpoints {
   @include make-col($breakpoint, $grid-columns);
 }
 
-// 添加容器和行的基本样式
 .container {
   width: 100%;
   padding-right: $grid-gutter-width / 2;

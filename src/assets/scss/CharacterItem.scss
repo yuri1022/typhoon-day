@@ -1,5 +1,5 @@
 .character-item {
-  width: 6.25rem; // 初始寬度顯示一半圖像
+  width: 9%;
   height: 24.5rem;
   overflow: hidden;
   filter: grayscale(100%) brightness(50%);
@@ -31,7 +31,7 @@
   }
 
   &.expanded {
-    width: 16.375rem;
+    width: 22.5%;
     height: auto;
     opacity: 1;
     filter: none;
