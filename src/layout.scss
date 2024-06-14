@@ -324,6 +324,10 @@ a {
   height: 600px;
   width: 100%;
   border: 2px solid var(--black);
+  @media (max-width: map-get($grid-breakpoints, md)) {
+      max-width: 100%;
+      height: 100%;
+    }
 }
 
 .modal-header {
@@ -359,4 +363,8 @@ a {
     height: 281px;
     width: 100%;
     border: 2px solid var(--black);
+      @media (max-width: map-get($grid-breakpoints, md)) {
+          max-width: 90%;
+          height: 50%;
+        }
 }

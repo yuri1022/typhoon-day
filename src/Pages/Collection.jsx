@@ -3,6 +3,7 @@ import Navbar from '../components/navbar';
 import Major from '../assets/svg/major_collection.svg';
 import Expert from '../assets/svg/expert_collection.svg'
 import CharacterItem from '../components/characteritem';
+import '../assets/scss/collection.scss'
 
 const characters = [
   {
@@ -54,8 +55,13 @@ const characters = [
 
 function Collection() {
   const [activeIndex, setActiveIndex] = useState(0); // 初始展開第一張圖片
-  const handleItemClick = (index) => {
-    setActiveIndex(index);
+  console.log(activeIndex)
+  const handleNext = () => {
+    setActiveIndex((prevIndex) => (prevIndex + 1) % characters.length);
+  };
+
+  const handlePrevious = () => {
+    setActiveIndex((prevIndex) => (prevIndex - 1 + characters.length) % characters.length);
   };
   return (
     <>
@@ -68,21 +74,24 @@ function Collection() {
               key={index}
               character={character}
               isActive={index === activeIndex}
-              onClick={() => handleItemClick(index)}
+              activeIndex={activeIndex}
+              onClick={() => setActiveIndex(index)}
+              handleNext={handleNext}
+              handlePrevious={handlePrevious}
             />
           ))}
         </div>
         <div className="title title-3 mt-2 ml-4">結局解鎖</div>
         <div className="ending-container h100 d-flex flex-wrap pl-4 pr-4 mt-1 col-12" style={{gap:'1rem'}}>
-          <div className="ending-item bg-black white bdrs-5 d-flex justify-content-between align-items-center mr-2 pl-2 pr-2" style={{height:'4rem',width: 'calc(33.33% - 2rem)'}}>
+          <div className="ending-item bg-black white bdrs-5 d-flex justify-content-between align-items-center mr-1 ml-1 pl-2 pr-2">
             <div className="title-4">結局</div>
             <div className="body-4">已解鎖</div>
             </div>
-          <div className="ending-item bg-black white bdrs-5 d-flex justify-content-between align-items-center mr-2 pl-2 pr-2" style={{height:'4rem',width: 'calc(33.33% - 2rem)'}}>
+          <div className="ending-item bg-black white bdrs-5 d-flex justify-content-between align-items-center mr-1 ml-1 pl-2 pr-2">
             <div className="title-4">結局</div>
             <div className="body-4">已解鎖</div>
             </div>
-          <div className="ending-item bg-black white bdrs-5 d-flex justify-content-between align-items-center mr-2 pl-2 pr-2" style={{height:'4rem',width: 'calc(33.33% - 2rem)'}}>
+          <div className="ending-item bg-black white bdrs-5 d-flex justify-content-between align-items-center mr-1 ml-1 pl-2 pr-2">
             <div className="title-4">結局</div>
             <div className="body-4">已解鎖</div>
             </div>

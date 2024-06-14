@@ -1,0 +1,12 @@
+.setting-body-top {
+  flex-direction: row;
+  .player-info{
+    flex-direction: row;
+  }
+}
+
+@media (max-width:768px) {
+.setting-body-top {
+    flex-direction: column;
+  }
+}

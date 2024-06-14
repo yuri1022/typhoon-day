@@ -4,6 +4,10 @@
   overflow: hidden;
   filter: grayscale(100%) brightness(50%);
   transition: filter 0.3s ease;
+  .previous,
+  .next{
+    display: none;
+  }
 
   .picture-container {
       width: 100%;
@@ -22,9 +26,10 @@
   .text {
     background-color: black;
     color: white;
-    padding: 0.5rem;
-
+    padding:0.5rem;
+    height: 8rem;
     .text-description {
+      margin-top: 0.5rem;
       display: none;
       font-size: 1rem;
     }
@@ -41,5 +46,26 @@
     .text-description {
       display: block;
     }
+  }
+     @media (max-width: 768px) {
+      display: none;        
+       &.expanded {
+        display: block;
+         flex: 1 0 100%;
+       }
+                .previous,
+                .next {
+                  display: block;
+                  padding: 0.5rem;
+                }
+     }
+}
+.character-list {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+
+  @media (max-width: 768px) {
+    flex-wrap: wrap;
   }
 }

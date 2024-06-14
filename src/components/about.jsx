@@ -31,6 +31,8 @@ function AboutModal({ onClose }) {
             <div className="description-item">北極</div>
           </div>
         </div>
+
+
           </div>
         </div>
 

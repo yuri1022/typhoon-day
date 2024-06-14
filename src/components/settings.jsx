@@ -1,5 +1,6 @@
 import React from 'react';
 import SliderWithMarks from './sliderwithmark';
+import '../assets/scss/setting.scss'
 
 function SettingsModal({ onClose }) {
   return (
@@ -14,7 +15,8 @@ function SettingsModal({ onClose }) {
             </div>
               <div className="setting-body d-flex flex-column">
                 <div className="setting-body-top d-flex mt-2 mb-2">
-                <div className="player-picture over-hidden bd-2 bdrs-5 mr-2" style={{width:'140px',height:'140px'}}>
+                  <div className="player-info d-flex">
+              <div className="player-picture over-hidden bd-2 bdrs-5 mr-2" style={{width:'140px',height:'140px'}}>
                   <img src="" alt="" />
                 </div>
                 <div className="player-btn d-flex flex-column mr-1">
@@ -24,6 +26,8 @@ function SettingsModal({ onClose }) {
                   
                   <button className='btn'>更換圖片</button>
                 </div>
+                  </div>
+
 
                 <div className="player-btn d-flex flex-column">
                   <button className='btn mb-3'>
