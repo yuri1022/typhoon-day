@@ -365,6 +365,5 @@ a {
     border: 2px solid var(--black);
       @media (max-width: map-get($grid-breakpoints, md)) {
           max-width: 90%;
-          height: 50%;
         }
 }

@@ -339,4 +339,7 @@
 
 .pointer{
   cursor:pointer;
+  &:hover{
+    color: var(--grey200);
+  }
 }

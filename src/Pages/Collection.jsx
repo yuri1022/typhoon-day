@@ -3,7 +3,8 @@ import Navbar from '../components/navbar';
 import Major from '../assets/svg/major_collection.svg';
 import Expert from '../assets/svg/expert_collection.svg'
 import CharacterItem from '../components/characteritem';
-import '../assets/scss/collection.scss'
+import '../assets/scss/collection.scss';
+import EndingModal from '../components/endingmodal';
 
 const characters = [
   {
@@ -52,10 +53,20 @@ const characters = [
   }
 ];
 
-
+const endingmsg = [
+  {title:'颱風假宣布得當',
+   description:'市長在適當的時機宣布颱風假，成功保護市民安全，大家在颱風期間妥善應對，城市平穩渡過颱風。', 
+}, 
+{title:'未宣布颱風假引發混亂',
+  description:'市長未在適當的時機宣布颱風假，導致市民混亂，交通擁擠，社會秩序受到一定程度的影響。', 
+}, 
+{title:'提前宣布颱風假過於保守',
+   description:'市長提前宣布颱風假，但颱風實際影響不大，導致市民對市長決策提出質疑，認為是過於保守。', 
+}]
 function Collection() {
   const [activeIndex, setActiveIndex] = useState(0); // 初始展開第一張圖片
-  console.log(activeIndex)
+  const [modalVisible, setModalVisible] = useState(false);
+  const [currentMessage, setCurrentMessage] = useState(null);
   const handleNext = () => {
     setActiveIndex((prevIndex) => (prevIndex + 1) % characters.length);
   };
@@ -63,6 +74,18 @@ function Collection() {
   const handlePrevious = () => {
     setActiveIndex((prevIndex) => (prevIndex - 1 + characters.length) % characters.length);
   };
+
+
+  const openEndingModal = (message) => {
+    setCurrentMessage(message);
+    setModalVisible(true);
+  };
+
+  const closeModal = () => {
+    setModalVisible(false);
+    setCurrentMessage(null);
+  };
+
   return (
     <>
       <Navbar />
@@ -82,23 +105,20 @@ function Collection() {
           ))}
         </div>
         <div className="title title-3 mt-2 ml-4">結局解鎖</div>
-        <div className="ending-container h100 d-flex flex-wrap pl-4 pr-4 mt-1 col-12" style={{gap:'1rem'}}>
-          <div className="ending-item bg-black white bdrs-5 d-flex justify-content-between align-items-center mr-1 ml-1 pl-2 pr-2">
-            <div className="title-4">結局</div>
-            <div className="body-4">已解鎖</div>
+        <div className="ending-container h100 d-flex flex-wrap pl-4 pr-4 mt-1 col-12" style={{ gap: '1rem' }}>
+          {endingmsg.map((msg, index) => (
+            <div
+              key={index}
+              className="ending-item bg-black white bdrs-5 d-flex justify-content-between align-items-center mr-1 ml-1 pl-2 pr-2"
+              onClick={() => openEndingModal(msg)}
+            >
+              <div className="title-4">結局</div>
+              <div className="body-4">已解鎖</div>
             </div>
-          <div className="ending-item bg-black white bdrs-5 d-flex justify-content-between align-items-center mr-1 ml-1 pl-2 pr-2">
-            <div className="title-4">結局</div>
-            <div className="body-4">已解鎖</div>
-            </div>
-          <div className="ending-item bg-black white bdrs-5 d-flex justify-content-between align-items-center mr-1 ml-1 pl-2 pr-2">
-            <div className="title-4">結局</div>
-            <div className="body-4">已解鎖</div>
-            </div>
-
-            
+          ))}
         </div>
       </div>
+      <EndingModal show={modalVisible} onClose={closeModal} message={currentMessage} />
     </>
   );
 }
