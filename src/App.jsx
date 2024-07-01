@@ -1,6 +1,5 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import HomePage from './Pages/HomePage';
 import StartPage from './Pages/StartPage';
 import Collection from './Pages/Collection';
 import MainPage from './Pages/MainPage';
@@ -13,7 +12,6 @@ function App() {
         <Routes>
           <Route path="/start" element={<StartPage />} />
           <Route path="/main" element={<MainPage />} />
-          <Route path="/home" element={<HomePage />} />
           <Route path="/collection" element={<Collection />} />
           <Route path="/area" element={<ChooseAreaPage />} />
         </Routes>

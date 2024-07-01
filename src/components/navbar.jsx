@@ -2,11 +2,32 @@ import  React,{ useState,useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import AboutModal from './about';
 import SettingsModal from './settings';
-import '../assets/scss/navbar.scss'
+import '../assets/scss/navbar.scss';
+import APIService from '../service/APIService.ts';
+
 
 function Navbar() {
   const [showAboutModal, setShowAboutModal] = useState(false);
   const [showSettingsModal, setShowSettingsModal] = useState(false);
+  const [user,setUser] = useState([]);
+
+useEffect(() => {
+    APIService.getUsers()
+      .then(response => response.json())
+      .then(data => {
+        if (data.status === 'success') {
+          setUser(data.data);
+          console.log(data)
+        } else {
+          console.error('API did not return the expected data structure:', data);
+        }
+      })
+      .catch(error => {
+        console.error('Error fetching endings data:', error);
+      });
+  }, []);
+
+
 
   const openAboutModal = () => setShowAboutModal(true);
   const closeAboutModal = () => setShowAboutModal(false);
@@ -61,7 +82,7 @@ function Navbar() {
       </div>
         
       {showAboutModal && <AboutModal onClose={closeAboutModal} />}
-      {showSettingsModal && <SettingsModal onClose={closeSettingsModal} />}
+      {showSettingsModal && <SettingsModal onClose={closeSettingsModal} user={user}/>}
       </div>
   );
 }

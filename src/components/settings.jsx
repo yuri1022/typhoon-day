@@ -1,8 +1,10 @@
 import React from 'react';
 import SliderWithMarks from './sliderwithmark';
-import '../assets/scss/setting.scss'
+import '../assets/scss/setting.scss';
 
-function SettingsModal({ onClose }) {
+function SettingsModal({ onClose,user }) {
+
+  console.log('i am user',user)
   return (
     <div className="modal">
       <div className="modal-content">
@@ -21,7 +23,7 @@ function SettingsModal({ onClose }) {
                 </div>
                 <div className="player-btn d-flex flex-column mr-1">
                   <div className="name title-5 mb-3" style={{width:'12.5rem',height:'3.75rem'}}>
-                    Player：XXXXX
+                    {user[0].name}
                     </div>
                   
                   <button className='btn'>更換圖片</button>
