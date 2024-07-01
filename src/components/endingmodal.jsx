@@ -1,6 +1,6 @@
 import React from 'react';
 
-const EndingModal = ({ show, onClose, message }) => {
+const EndingModal = ({ show, onClose,message }) => {
   if (!show) return null;
 
   return (
@@ -10,8 +10,8 @@ const EndingModal = ({ show, onClose, message }) => {
           <div className="close" onClick={onClose}>&times;</div>   
         </div>
         <div className="modal-body">
-        <h2>{message.title}</h2>
-        <p>{message.description}</p>
+        <h2>{message?.name}</h2>
+        <p>{message?.descriprion}</p>
       </div>
     </div>
     </div>

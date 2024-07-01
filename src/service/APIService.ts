@@ -13,6 +13,16 @@ class APIService {
         })
     };
 
+    static getAllCharacters = () => {
+        return fetch(`${this.BASE_URL}/characters`, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            }
+        })
+    };
+
     static getCharacters = (charId: number) => {
         return fetch(`${this.BASE_URL}/characters?charId=${charId}`, {
             method: 'GET',

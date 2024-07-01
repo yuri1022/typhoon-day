@@ -49,7 +49,7 @@ function CharacterItem({ character, isActive, onClick,handleNext, handlePrevious
           <FontAwesomeIcon icon={faChevronLeft} />
           </div>
           <div className="text-description">
-            {character.description}
+            {character.descriprion}
           </div>
           <div className="next white pointer" onClick={(e) => { e.stopPropagation(); handleNext(); }}>
             <FontAwesomeIcon icon={faChevronRight} />
