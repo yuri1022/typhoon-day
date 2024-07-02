@@ -45,7 +45,7 @@ const handleReplyClick = (message) => {
 
 useEffect(() => {
   if (selectedMessage) {
-    // console.log(selectedMessage);
+    console.log(selectedMessage);
   }
 }, [selectedMessage]);
 
@@ -53,7 +53,10 @@ useEffect(() => {
     console.log(`Selected option: ${option.descriprion}`);
   };
 
-
+const numberToChinese = (num) => {
+  const chineseNumbers = ["一", "二", "三", "四", "五", "六", "七", "八", "九", "十"];
+  return chineseNumbers[num - 1];
+};
 
   return (
     <>
@@ -142,9 +145,10 @@ useEffect(() => {
               </div>
               <div className="chat over-y-scroll" style={{ height: '27.4rem' }}>
                 
-                {selectedMessage?.options.map(option => (
+                {selectedMessage?.options.map((option,index) => (
                   <div className="chat-box m-2 bg-black white bdrs-5 p-2" style={{ height: '9.3rem' }} onClick={() => handleOptionClick(option)}>
-                    {option.descriprion}
+                    <div className="title-5">{`選項${numberToChinese(index + 1)}`}</div>
+                    <div className="body-5 mt-1">{option.descriprion}</div>
                     </div>
                 ))}
                 

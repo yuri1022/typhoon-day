@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
 import Navbar from '../components/navbar';
 import '../assets/scss/startpage.scss';
@@ -6,6 +7,7 @@ import HintModal from '../components/hintmodal'
 
 function StartPage() {
   const [showHint,setShowHint] = useState(false);
+  const navigate = useNavigate();
 
   const openHintModal = () => {
     setShowHint(true);
@@ -14,6 +16,10 @@ function StartPage() {
   const closeModal = () => {
     setShowHint(false);
   };
+
+  const handleStart = () =>{
+    navigate('/area')
+  }
 
   return (
 <div className='homepage' style={{ height: '100vh' }}>
@@ -29,7 +35,7 @@ function StartPage() {
               你準備好了嗎？
             </div>
             <div className="section button mt-2">
-              <Button className='btn title-4'>開始遊戲</Button>
+              <Button className='btn title-4' onClick={handleStart}>開始遊戲</Button>
             </div>
             <div className="section button mt-2">
               <div className='m-2 p-1 bdrs-5 pointer' onClick={openHintModal}>
