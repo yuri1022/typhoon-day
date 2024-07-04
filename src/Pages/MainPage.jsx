@@ -6,13 +6,23 @@ import DataModal from '../components/MeteorologicalData';
 import HistoryModal from '../components/replyhistory';
 import '../assets/scss/mainpage.scss';
 import APIService from '../service/APIService.ts';
+import NoticeModal from '../components/noticemodal.jsx';
 
 function MainPage() {
   const [showDropdown, setShowDropdown] = useState(false);
   const [showData, setShowData] = useState(false);
   const [showHistory, setShowHistory] = useState(false);
+  const [showNotice, setShowNotice] = useState(false);
   const [messages, setMessages] = useState([]);
+  const [selectedMessageIndex, setSelectedMessageIndex] = useState(null);
   const [selectedMessage, setSelectedMessage] = useState(null);
+  const [history, setHistory] = useState([]);
+  const [polling, setPolling] = useState(25);
+  const [funding, setFunding] = useState(25);
+  const [environment, setEnvironment] = useState(25);
+  const [isOptionSelected, setIsOptionSelected] = useState(false);
+  const [selectedOptionIndex, setSelectedOptionIndex] = useState(null);
+  const [answeredMessages, setAnsweredMessages] = useState([]);
 
   const toggleDropdown = () => {
     setShowDropdown(!showDropdown);
@@ -20,9 +30,9 @@ function MainPage() {
 
   const openDataModal = () => setShowData(true);
   const closeDataModal = () => setShowData(false);
-
   const openHistoryModal = () => setShowHistory(true);
   const closeHistoryModal = () => setShowHistory(false);
+  const closeNoticeModal = () => setShowNotice(false);
 
   useEffect(() => {
     APIService.getMainScreen()
@@ -39,8 +49,13 @@ function MainPage() {
       });
   }, []);
 
-const handleReplyClick = (message) => {
+const handleReplyClick = (message,messageIndex) => {
+   if (answeredMessages.includes(messageIndex)) {
+    return;
+  }
+  setSelectedMessageIndex(messageIndex);
   setSelectedMessage(message);
+  setIsOptionSelected(false);
 };
 
 useEffect(() => {
@@ -49,8 +64,21 @@ useEffect(() => {
   }
 }, [selectedMessage]);
 
-  const handleOptionClick = (option) => {
-    console.log(`Selected option: ${option.descriprion}`);
+const handleOptionClick = (option,index) => {
+    if (isOptionSelected) return;
+    setPolling(prev => prev + option.polling);
+    setFunding(prev => prev + option.funding);
+    setEnvironment(prev => prev + option.environment);
+    const newHistoryItem = {
+      message: selectedMessage.comment,
+      option: option.descriprion,
+    };
+
+    setHistory(prevHistory => [...prevHistory, newHistoryItem]);
+     setIsOptionSelected(true);
+     setSelectedOptionIndex(index);
+     setShowNotice(true);
+    setAnsweredMessages([...answeredMessages, selectedMessageIndex]);
   };
 
 const numberToChinese = (num) => {
@@ -66,13 +94,19 @@ const numberToChinese = (num) => {
           <div className="main-page-left col-12 col-md-7 mb-2">
             <div className="left-picture w-100" style={{ height: '25rem' }}>
               <img className="h100 w100 contain bg-grey200 bdrs-5" src={Major} alt="" />
+              <div className="status">
+                <div>市政滿意度: {polling}</div>
+                <div>經濟收入: {funding}</div>
+                <div>環境品質: {environment}</div>
+              </div>
+
             </div>
             <div className="chat-room-container bd-2 bdrs-5 mt-2">
 
              <div className="header title-4 d-flex align-items-center justify-content-center" style={{ height: '4rem' ,borderBottom:'2px solid black'}}>聊天室</div>           
             <div className="left-chat w-100 over-y-scroll" style={{ height: '15.5rem' }}>
 
-          {messages.map(message => (
+          {messages.map((message,index) => (
             <div key={message.id} className="chat-box-container d-flex pt-2 pl-1">
             <div className="chat-box-l col-1">
               <div className="img-container d-flex justify-content-center pl-1">
@@ -81,12 +115,12 @@ const numberToChinese = (num) => {
             </div>
             <div className="chat-box-r col-11 pr-1">
               <div className="chat-box title-5 ml-2">{message.character.name}</div>
-              <div className="chat-box bg-black bdrs-5 mt-1 ml-2 p-2 d-flex flex-column justify-content-between" style={{ height: '7.68rem' }}>
+              <div className={`chat-box ${answeredMessages.includes(index) ? 'bg-grey300' : 'bg-black'} bdrs-5 mt-1 ml-2 p-2 d-flex flex-column justify-content-between`} style={{ height: '7.68rem' }}>
                 <div className="chat-box-text white body-5">
                   {message.comment}
                 </div>
                 <div className="chat-box-btn d-flex justify-content-end">
-                  <button className="btn-white-xs" onClick={() => handleReplyClick(message)}>回覆</button>
+                  <button className="btn-white-xs" onClick={() => handleReplyClick(message,index)}>回覆</button>
                 </div>
               </div>
             </div>
@@ -114,7 +148,7 @@ const numberToChinese = (num) => {
                 </div>
               )}
               {showData && <DataModal onClose={closeDataModal} />}
-              {showHistory && <HistoryModal onClose={closeHistoryModal} />}
+              {showHistory && <HistoryModal onClose={closeHistoryModal} history={history} />}
 
             </div>
 
@@ -146,13 +180,15 @@ const numberToChinese = (num) => {
               <div className="chat over-y-scroll" style={{ height: '27.4rem' }}>
                 
                 {selectedMessage?.options.map((option,index) => (
-                  <div className="chat-box m-2 bg-black white bdrs-5 p-2" style={{ height: '9.3rem' }} onClick={() => handleOptionClick(option)}>
+                  <div className={`chat-box m-2 ${isOptionSelected && selectedOptionIndex !== index ? 'bg-grey300' : 'bg-black'} bg-black white bdrs-5 p-2`} style={{ height: '9.3rem' }} onClick={() => handleOptionClick(option,index)}>
                     <div className="title-5">{`選項${numberToChinese(index + 1)}`}</div>
                     <div className="body-5 mt-1">{option.descriprion}</div>
                     </div>
                 ))}
-                
+               
               </div>
+
+            {showNotice && <NoticeModal show={showNotice} onClose={closeNoticeModal} option={selectedMessage.options[selectedOptionIndex]}/>}
             </div>
           </div>            
           </div>

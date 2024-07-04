@@ -1,6 +1,8 @@
 import React from 'react';
+import '../assets/scss/replyhistory.scss';
 
-function HistoryModal({ onClose }) {
+function HistoryModal({ onClose,history }) {
+  console.log(history)
   return (
     <div className="modal">
       <div className="modal-content">
@@ -14,10 +16,21 @@ function HistoryModal({ onClose }) {
             </div>
         <div className="dialog-box mt-2 mb-1">
           <div className="title-4 mb-1">第一次颱風</div>
-          <div className="description d-flex flex-column ml-2 mr-2">
-            <div className="description-title title-5 mt-2">新聞記者</div>
-            <div className="description-text  body-5 mt-1">「面對颱風威脅，是否禁止民眾外出是一個引人關注的話題。這引起了社會對於自由和安全之間平衡的討論。我們將持續關注市政府在這一方面的政策決定和市民的反響。」</div>
-          </div>
+        <div className="history-content over-y-scroll">
+          {history.map((item, index) => (
+            <div key={index} className="history-item m-1">
+              <div className="question mt-2">
+              <div className="history-character title-5 grey400">{item.character}</div>
+              <div className="history-message body-5 grey400">{item.message}</div>
+              </div>
+              <div className="reply mt-2">
+              <div className="history-reply title-5">你</div>
+              <div className="history-option">{item.option}</div>
+              </div>
+
+            </div>
+          ))}
+        </div>
         </div>
           </div>
         </div>
