@@ -1,0 +1,61 @@
+.hamburger-menu,
+.mobile-menu {
+  display: none;
+}
+
+/* 基本的navbar樣式 */
+.navbar {
+  width: 100%;
+  display: flex;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  justify-content: space-between;
+  background-color: var(--white);
+  position: fixed;
+  height: 5rem;
+  border-bottom: 2px solid var(--grey200);
+  z-index: 100;
+}
+
+@media (max-width: 768px) {
+  .navbar-right {
+    display: none !important;
+  }
+
+  .hamburger-menu {
+    display: block;
+  }
+
+  .mobile-menu {
+    display: none;
+    position: fixed;
+    top: 5rem;
+    right: 0;
+    background-color: var(--white);
+    width: 100%;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
+    border-radius: 0.3125rem;
+    .about,
+    .setting,
+    .collection {
+      padding: 1rem;
+    }
+    .about,
+    .setting{
+      border-bottom: 1px solid var(--grey200);
+    }
+  }
+
+  .hamburger-menu.active+.mobile-menu {
+    display: block;
+  }
+}
+
+.hamburger-menu {
+  cursor: pointer;
+  user-select: none;
+
+  &.active::after {
+    content: '';
+  }
+}

@@ -1,0 +1,80 @@
+.choosepage{
+  height: 100vh;
+  .choose-container {
+      padding-top: 5rem;
+      .choosetop {
+        height: 10vh;
+        }
+      .choosebot{
+        height: 90vh;
+        .choose-item-pc{
+          padding: 0;
+          background-size: cover;
+          position: relative;
+          transition: background-color 0.3ms ease-out;
+      &.inactive::after {
+         content: '';
+         position: absolute;
+         top: 0;
+         left: 0;
+         width: 100%;
+         height: 100%;
+         background-color: rgba(0, 0, 0, 0.7); // 黑色，透明度70%
+         z-index: 1;
+        }
+          .item{
+          background-color: rgba(255, 255, 255, 0.6);
+          height: 10vh;
+          }
+        }
+                .description {
+                  display: none;
+        
+                  &.active {
+                    display: block;
+                    margin:1rem;
+                    opacity: 0.7;
+                  }
+                }
+      }
+      .button{
+        position: fixed;
+        bottom: 10%;
+        left: 50%;
+        z-index: 2;
+        transform: translateX(-50%);
+      }
+    }
+}
+.choose-item-mb{
+display: none;
+}
+
+
+@media (max-width:768px) {
+.choose-item-mb {
+  display: block;
+    .item {
+      height: 10vh;
+    }
+
+    &.active {
+      background-color: rgba(255, 255, 255, 0.6);
+    }
+
+    &.inactive {
+      background-color: rgba(0, 0, 0, 0.6);
+    }
+  }
+  .choosebot{
+    .choose-item-pc {
+      &.inactive{
+        display: none;
+      }
+      .item{
+        display: none;
+      }
+      }
+  }
+
+}

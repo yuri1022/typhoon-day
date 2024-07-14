@@ -1,0 +1,10 @@
+.ending-item{
+  height: 4rem;
+  width: calc(33.33% - 2rem);
+}
+
+@media (max-width:768px) {
+  .ending-item {
+    width: 100%;
+  }
+}
