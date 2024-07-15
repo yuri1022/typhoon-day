@@ -45,6 +45,7 @@ function MainPage() {
       .then(data => {
         if (data.status === 'success' && Array.isArray(data.data)) {
           setMessages(data.data);
+          setSelectedMessage(null);
         } else {
           console.error('API returned unexpected data structure:', data);
         }
@@ -137,17 +138,12 @@ const numberToChinese = (num) => {
           <div className="main-page-left col-12 col-md-7 mb-2">
             <div className="left-picture w-100" style={{ height: '25rem' }}>
               <img className="h100 w100 contain bg-grey200 bdrs-5" src={Major} alt="" />
-              <div className="status">
-                <div>市政滿意度: {polling}</div>
-                <div>經濟收入: {funding}</div>
-                <div>環境品質: {environment}</div>
-              </div>
 
             </div>
             <div className="chat-room-container bd-2 bdrs-5 mt-2">
 
              <div className="header title-4 d-flex align-items-center justify-content-center" style={{ height: '4rem' ,borderBottom:'2px solid black'}}>聊天室</div>           
-            <div className="left-chat w-100 over-y-scroll" style={{ height: '15.5rem' }}>
+            <div className="left-chat w-100 over-y-scroll" style={{ height: '20.5rem' }}>
 
           {messages.map((message,index) => (
             <div key={message.id} className="chat-box-container d-flex pt-2 pl-1">
@@ -175,7 +171,20 @@ const numberToChinese = (num) => {
 
             </div>
           <div className="main-page-right col-12 col-md-5 mb-2">
-            <div className="tools w-100 bd-2 bdrs-5 d-flex" style={{ height: '4rem' }}>
+
+           <div className="tools w-100 bd-2 bdrs-5 d-flex" style={{ height: '4rem' }}>
+              <div className="status w100 d-flex title-4 align-items-center justify-content-center">
+                <div className="polling">民調：{polling}</div>
+                <div className="progress-line">｜</div>
+                <div className="funding">資金：{funding}</div>
+                <div className="progress-line">｜</div>
+                <div className="enviroment">環境：{environment}</div>
+              </div>
+
+           </div>
+            
+
+            <div className="tools w-100 bd-2 bdrs-5 d-flex mt-2" style={{ height: '4rem' }}>
               <div className="title-4 d-flex w100 justify-content-center align-items-center">小工具</div>
               <div className="arrow-down mr-2" onClick={toggleDropdown}>
                 <img src={ArrowDown} alt="" />
@@ -200,7 +209,7 @@ const numberToChinese = (num) => {
               <div className="character" style={{ height: '9.06rem', borderBottom: '2px solid var(--black)' }}>
                 <div className="chat-box-container d-flex pt-2 pl-1">
             <div className="chat-box-l col-1">
-              <div className="img-container d-flex justify-content-center">
+              <div className={`img-container justify-content-center ${selectedMessage ? 'd-flex':'d-none'}`}>
                 <img className="img-circle bd-2" src={selectedMessage?.character.image} alt={selectedMessage?.character.name} />
               </div>
             </div>
