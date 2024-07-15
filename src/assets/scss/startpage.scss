@@ -52,12 +52,18 @@
     .home-section-right {
       transform: translateX(30%);
     }
+.section-container{
+  width: 80%;
+  .section-title {
+      width: 100%;
+      img {
+        max-width: 100%;
+      }
+    }
+  .section{
+    padding: 0 1rem;
+  }
+}
 
-        .section-title {
-          width: 100%;
-          img{
-            max-width: 100%;
-          }
-        }
   }
 }

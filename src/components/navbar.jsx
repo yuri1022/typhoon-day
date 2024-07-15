@@ -91,14 +91,14 @@ function Navbar() {
         &#9776;
       </div>
       <div className="mobile-menu">
-        <div className="about title-3 pointer" onClick={openAboutModal}>關於我們</div>
-        <div className="setting title-3 pointer" onClick={openSettingsModal}>設定</div>
-        <div className="collection title-3">
+        <div className="about body-5 pointer" onClick={openAboutModal}>關於我們</div>
+        <div className="setting body-5 pointer" onClick={openSettingsModal}>設定</div>
+        <div className="collection body-5">
           <Link to='/collection'>收集</Link>
         </div>
-        <div className="process title-3 pointer" onClick={openProcessModal}>遊戲流程</div>
-          <div className="login-mb title-3">
-            登入/註冊
+        <div className="process body-5 pointer" onClick={openProcessModal}>遊戲流程</div>
+      <div className="login white title-4 w100 d-flex align-items-center justify-content-center pointer" onClick={openLoginModal}>
+          {user ? '登出' : '登入/註冊'}
             </div>
       </div>
         
