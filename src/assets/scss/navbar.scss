@@ -17,6 +17,12 @@
   z-index: 100;
 }
 
+.login{
+ background: var(--black);
+ border: none;
+ height:2.5rem;
+}
+
 @media (max-width: 768px) {
   .navbar-right {
     display: none !important;

@@ -5,9 +5,12 @@ import Collection from './Pages/Collection';
 import MainPage from './Pages/MainPage';
 import ChooseAreaPage from './Pages/ChooseAreaPage';
 import './App.scss';
+import { UserProvider } from './context/UserContext';
+
 
 function App() {
   return (
+    <UserProvider>
     <Router>
         <Routes>
           <Route path="/start" element={<StartPage />} />
@@ -16,6 +19,7 @@ function App() {
           <Route path="/area" element={<ChooseAreaPage />} />
         </Routes>
     </Router>
+    </UserProvider>
   );
 }
 

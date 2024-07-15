@@ -3,6 +3,28 @@
 class APIService {
     static BASE_URL = "http://13.231.143.123:3333";
 
+ static signIn = (userData) => {
+        return fetch(`${this.BASE_URL}/signin`, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(userData)
+        });
+    };
+
+    static signUp = (userData) => {
+        return fetch(`${this.BASE_URL}/signup`, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(userData)
+        });
+    };
+
     static getMainScreen = () => {
         return fetch(`${this.BASE_URL}/mainScreen`, {
             method: 'GET',

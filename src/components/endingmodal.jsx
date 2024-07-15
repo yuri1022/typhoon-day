@@ -28,7 +28,7 @@ const EndingModal = ({ show, onClose,message }) => {
       <div className="modal-content-dialog" ref={modalRef}>
         <div className="modal-body m-1">
         <p className='title-4 m-1'>{message?.name}</p>
-        <p className='body-5 m-1'>{message?.descriprion}</p>
+        <p className='body-5 m-1'>{message?.description}</p>
       </div>
     </div>
     </div>

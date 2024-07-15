@@ -1,0 +1,76 @@
+
+.title-container{
+  position: relative;
+.progress-line {
+    position: absolute;
+    content: '';
+    width: 1px;
+    height: 100%;
+    background-color: var(--black);
+  }
+}
+
+.sub-title{
+  width: 73.8%;
+}
+
+.login-item{
+  margin-bottom:0.5rem;
+  width: 73.8%;
+  height: 2.5rem;
+  .item-name{
+    border:1px solid var(--black);
+    border-right: none;
+    padding: 0.25rem;
+    border-radius: 0.3125rem 0 0 0.3125rem;
+    width: 33.33%;
+    text-align: center;
+  }
+  input{
+    border: 1px solid var(--black);
+    border-left: none;
+    border-radius: 0 0.3125rem 0.3125rem 0;
+    width: 66.66%;
+  }
+}
+
+.login-button{
+  border: none;
+  border-radius: 0.3125rem;
+  background-color: var(--black);
+  color:white;
+  width: 73.8%;
+  height: 2.5rem;
+  font-size: 1.33rem;
+  cursor: pointer;
+}
+
+.forget{
+  width: 73.8%;
+  position: relative;
+  color: var(--grey300);
+  .forget-progress-line{
+    position: absolute;
+    content: '';
+    width: 1px;
+    height: 100%;
+    background-color:var(--grey300);
+    transform: translateX(-70px);
+  }
+}
+
+.login-button-google {
+  border: 1px solid var(--grey300);
+  border-radius: 0.3125rem;
+  background-color: var(--white);
+  color: var(--black);
+  width: 73.8%;
+  height: 2.5rem;
+  font-size: 1.33rem;
+  cursor: pointer;
+}
+
+.error-message{
+  width: 73.8%;
+  color: var(--red);
+}

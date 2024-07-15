@@ -7,12 +7,15 @@ import HistoryModal from '../components/replyhistory';
 import '../assets/scss/mainpage.scss';
 import APIService from '../service/APIService.ts';
 import NoticeModal from '../components/noticemodal.jsx';
+import TyphoonModal from '../components/typhoonmodal.jsx';
+import NextRoundModal from '../components/nextroundmodal.jsx';
 
 function MainPage() {
   const [showDropdown, setShowDropdown] = useState(false);
   const [showData, setShowData] = useState(false);
   const [showHistory, setShowHistory] = useState(false);
   const [showNotice, setShowNotice] = useState(false);
+  const [showTyphoonModal, setShowTyphoonModal] = useState(false); 
   const [messages, setMessages] = useState([]);
   const [selectedMessageIndex, setSelectedMessageIndex] = useState(null);
   const [selectedMessage, setSelectedMessage] = useState(null);
@@ -23,6 +26,8 @@ function MainPage() {
   const [isOptionSelected, setIsOptionSelected] = useState(false);
   const [selectedOptionIndex, setSelectedOptionIndex] = useState(null);
   const [answeredMessages, setAnsweredMessages] = useState([]);
+  const [showNextRoundModal, setShowNextRoundModal] = useState(false); 
+
 
   const toggleDropdown = () => {
     setShowDropdown(!showDropdown);
@@ -71,7 +76,7 @@ const handleOptionClick = (option,index) => {
     setEnvironment(prev => prev + option.environment);
     const newHistoryItem = {
       message: selectedMessage.comment,
-      option: option.descriprion,
+      option: option.description,
     };
 
     setHistory(prevHistory => [...prevHistory, newHistoryItem]);
@@ -79,8 +84,46 @@ const handleOptionClick = (option,index) => {
      setSelectedOptionIndex(index);
      setShowNotice(true);
     setAnsweredMessages([...answeredMessages, selectedMessageIndex]);
+
+     if (answeredMessages.length + 1 === messages.length) {
+      setShowTyphoonModal(true);
+    }
   };
 
+  const handleTyphoonDecision = (decision) => {
+    console.log(decision);
+    setShowTyphoonModal(false);
+    setShowNextRoundModal(true);
+  };
+
+  const handleNextRoundDecision = (decision) => {
+    setShowNextRoundModal(false);
+    
+    if (decision) {
+       const savedData = {
+        polling,
+        funding,
+        environment,
+      };
+      console.log('Saved Data:', savedData);
+      setSelectedMessage(null);
+      APIService.getMainScreen()
+        .then(response => response.json())
+        .then(data => {
+          if (data.status === 'success' && Array.isArray(data.data)) {
+            setMessages(data.data);
+            setAnsweredMessages([]);
+          } else {
+            console.error('API returned unexpected data structure:', data);
+          }
+        })
+        .catch(error => {
+          console.error('Error fetching messages:', error);
+        });
+    } else {
+      console.log('遊戲結束');
+    }
+  };
 const numberToChinese = (num) => {
   const chineseNumbers = ["一", "二", "三", "四", "五", "六", "七", "八", "九", "十"];
   return chineseNumbers[num - 1];
@@ -182,13 +225,15 @@ const numberToChinese = (num) => {
                 {selectedMessage?.options.map((option,index) => (
                   <div className={`chat-box m-2 ${isOptionSelected && selectedOptionIndex !== index ? 'bg-grey300' : 'bg-black'} bg-black white bdrs-5 p-2`} style={{ height: '9.3rem' }} onClick={() => handleOptionClick(option,index)}>
                     <div className="title-5">{`選項${numberToChinese(index + 1)}`}</div>
-                    <div className="body-5 mt-1">{option.descriprion}</div>
+                    <div className="body-5 mt-1">{option.description}</div>
                     </div>
                 ))}
                
               </div>
 
             {showNotice && <NoticeModal show={showNotice} onClose={closeNoticeModal} option={selectedMessage.options[selectedOptionIndex]}/>}
+             {showTyphoonModal && <TyphoonModal show={showTyphoonModal} onClose={handleTyphoonDecision} />}
+             {showNextRoundModal && <NextRoundModal onClose={handleNextRoundDecision} />}
             </div>
           </div>            
           </div>
