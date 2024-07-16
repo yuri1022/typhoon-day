@@ -154,7 +154,7 @@ const numberToChinese = (num) => {
             </div>
             <div className="chat-box-r col-11 pr-1">
               <div className="chat-box title-5 ml-2">{message.character.name}</div>
-              <div className={`chat-box ${answeredMessages.includes(index) ? 'bg-grey300' : 'bg-black'} bdrs-5 mt-1 ml-2 p-2 d-flex flex-column justify-content-between`} style={{ height: '7.68rem' }}>
+              <div className={`chat-box-black ${answeredMessages.includes(index) ? 'bg-grey300' : 'bg-black'} bdrs-5 mt-1 ml-2 p-2 d-flex flex-column justify-content-between`}>
                 <div className="chat-box-text white body-5">
                   {message.comment}
                 </div>
@@ -209,14 +209,14 @@ const numberToChinese = (num) => {
               <div className="character" style={{ height: '9.06rem', borderBottom: '2px solid var(--black)' }}>
                 <div className="chat-box-container d-flex pt-2 pl-1">
             <div className="chat-box-l col-1">
-              <div className={`img-container justify-content-center ${selectedMessage ? 'd-flex':'d-none'}`}>
+              <div className={`img-container justify-content-center ml-1 ${selectedMessage ? 'd-flex':'d-none'}`}>
                 <img className="img-circle bd-2" src={selectedMessage?.character.image} alt={selectedMessage?.character.name} />
               </div>
             </div>
 
                   <div className="chat-box-r col-11 pr-1">
-                    <div className="chat-box title-5">                {selectedMessage?.character.name}</div>
-                    <div className="chat-box bdrs-5 mt-1 d-flex flex-column justify-content-between" style={{ height: '5rem' }}>
+                    <div className="chat-box title-5 ml-2">                {selectedMessage?.character.name}</div>
+                    <div className="chat-box bdrs-5 mt-1 d-flex flex-column justify-content-between ml-2" style={{ height: '5rem' }}>
 
                       <div className="chat-box-text body-5 over-y-scroll">
                       {selectedMessage?.comment}
