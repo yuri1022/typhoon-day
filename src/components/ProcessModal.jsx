@@ -6,6 +6,7 @@ import Step4 from '../assets/svg/step4.svg';
 import Step5 from '../assets/svg/step5.svg';
 import Step6 from '../assets/svg/step6.svg';
 import { useNavigate } from 'react-router-dom';
+import '../assets/scss/processmodal.scss';
 
 const ProcessModal = ({ onClose }) => {
     const navigate = useNavigate();
@@ -64,20 +65,20 @@ const ProcessModal = ({ onClose }) => {
             <div className="process-title title-3 text-center">
               遊戲流程
             </div>
-            <div className="process-step title-4">
-            <p className='m-1'>{steps[currentStep].text}</p>
+            <div className="process-step title-4 mb-2">
+            <p className='text m-1'>{steps[currentStep].text}</p>
             <div className="img text-center">
                <img src={steps[currentStep].image} alt={`Step ${currentStep + 1}`} style={{ maxWidth: '100%', height: 'auto' }} />
             </div>
              
             </div>
-            <div className="process-navigation d-flex text-center justify-content-end mb-3">
+            <div className="process-navigation d-flex text-center justify-content-end">
               {currentStep > 0 && (
-                <button className="btn-white m-1" onClick={handlePrevious}>
+                <button className="btn-white mr-2" onClick={handlePrevious}>
                   上一頁
                 </button>
               )}
-              <button className="btn m-1" onClick={handleNext}>
+              <button className="btn mr-1" onClick={handleNext}>
                 {currentStep === steps.length - 1 ? '開始遊戲' : '下一頁'}
               </button>
             </div>

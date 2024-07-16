@@ -18,6 +18,13 @@ function Navbar() {
   const [showLoginModal, setShowLoginModal] = useState(false);
   const { user, login, logout } = useContext(UserContext);
 
+ useEffect(() => {
+    const storedUser = JSON.parse(localStorage.getItem('user'));
+    if (storedUser) {
+      login(storedUser);
+    }
+  }, [login]);
+
   useEffect(() => {
     APIService.getUsers()
       .then(response => response.json())
@@ -38,7 +45,13 @@ function Navbar() {
   const openAboutModal = () => setShowAboutModal(true);
   const closeAboutModal = () => setShowAboutModal(false);
 
-  const openSettingsModal = () => setShowSettingsModal(true);
+  const openSettingsModal = () => {
+    if(!user){
+      alert('please login')
+      return
+    }
+    setShowSettingsModal(true);
+  }
   const closeSettingsModal = () => setShowSettingsModal(false);
 
   const openProcessModal = () => setShowProcessModal(true);
@@ -83,7 +96,7 @@ function Navbar() {
             <Link to='/collection'>收集</Link>
             </div>
             <div className="process title-4 pointer mr-4" onClick={openProcessModal}>遊戲流程</div>
-            <button className="login white title-4 bdrs-5 pr-2 pl-2 pointer" onClick={openLoginModal}>
+            <button className="login white title-4 bdrs-5 pr-2 pl-2 pointer" onClick={user ? logout : openLoginModal}>
               {user ? '登出' : '登入/註冊'}
             </button>
         </div>
@@ -97,7 +110,7 @@ function Navbar() {
           <Link to='/collection'>收集</Link>
         </div>
         <div className="process body-5 pointer" onClick={openProcessModal}>遊戲流程</div>
-      <div className="login white title-4 w100 d-flex align-items-center justify-content-center pointer" onClick={openLoginModal}>
+      <div className="login white title-4 w100 d-flex align-items-center justify-content-center pointer" onClick={user ? logout : openLoginModal}>
           {user ? '登出' : '登入/註冊'}
             </div>
       </div>

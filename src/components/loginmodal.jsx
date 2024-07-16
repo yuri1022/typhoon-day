@@ -1,5 +1,5 @@
 // LoginModal.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import APIService from '../service/APIService.ts';
 import '../assets/scss/loginmodal.scss';
 import google from '../assets/svg/google.svg';
@@ -14,6 +14,13 @@ const LoginModal = ({ onClose, login }) => {
   const [errors, setErrors] = useState({});
   const [serverError, setServerError] = useState('');
 
+  useEffect(() => {
+    const storedUser = JSON.parse(localStorage.getItem('user'));
+    if (storedUser) {
+      login(storedUser);
+      onClose();
+    }
+  }, [login, onClose]);
 
   const validateEmail = (email) => {
     return email.includes('@');
@@ -41,6 +48,7 @@ const LoginModal = ({ onClose, login }) => {
       .then(response => response.json())
       .then(data => {
         if (data.status === 'success') {
+          localStorage.setItem('user', JSON.stringify(data.data));
           login(data.data); 
           onClose();
         } else {
@@ -76,6 +84,7 @@ const LoginModal = ({ onClose, login }) => {
       .then(response => response.json())
       .then(data => {
         if (data.status === 'success') {
+          localStorage.setItem('user', JSON.stringify(data.data));
           login(data.data); 
           onClose();
         } else {
