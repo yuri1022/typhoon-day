@@ -115,10 +115,10 @@ function Navbar() {
             </div>
       </div>
         
-      {showAboutModal && <AboutModal onClose={closeAboutModal} />}
-      {showSettingsModal && <SettingsModal onClose={closeSettingsModal} user={user}/>}
-      {showProcessModal && <ProcessModal onClose={closeProcessModal} />}
-       {showLoginModal && <LoginModal onClose={closeLoginModal} login={login} />}
+      {showAboutModal && <AboutModal show={showAboutModal} onClose={closeAboutModal} />}
+      {showSettingsModal && <SettingsModal show={showSettingsModal} onClose={closeSettingsModal} user={user}/>}
+      {showProcessModal && <ProcessModal show={showProcessModal} onClose={closeProcessModal} />}
+       {showLoginModal && <LoginModal show={showLoginModal} onClose={closeLoginModal} login={login} />}
       </div>
   );
 }

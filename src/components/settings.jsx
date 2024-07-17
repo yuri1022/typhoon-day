@@ -3,12 +3,14 @@ import SliderWithMarks from './sliderwithmark';
 import '../assets/scss/setting.scss';
 import Major from '../assets/svg/major_collection.svg';
 import Logo from '../assets/svg/LOGO.svg';
+import Modal from './Modal.js';
 
-function SettingsModal({ onClose,user }) {
+
+function SettingsModal({ show,onClose,user }) {
   console.log('i am user',user)
   return (
     <div className="modal">
-      <div className="modal-content">
+       <Modal show={show} onClose={onClose} size="modal-content">
         <div className="modal-header">
           <div className="close" onClick={onClose}>&times;</div>   
         </div>
@@ -67,7 +69,7 @@ function SettingsModal({ onClose,user }) {
             <div className="btn-sm mr-2">確認</div>
           </div>
         </div>
-      </div>
+      </Modal>
     </div>
   );
 }

@@ -7,8 +7,9 @@ import Step5 from '../assets/svg/step5.svg';
 import Step6 from '../assets/svg/step6.svg';
 import { useNavigate } from 'react-router-dom';
 import '../assets/scss/processmodal.scss';
+import Modal from './Modal';
 
-const ProcessModal = ({ onClose }) => {
+const ProcessModal = ({ show,onClose }) => {
     const navigate = useNavigate();
 
   const steps = [
@@ -56,7 +57,7 @@ const ProcessModal = ({ onClose }) => {
 
   return (
     <div className="modal">
-      <div className="modal-content">
+    <Modal show={show} onClose={onClose} size="modal-content">
         <div className="modal-header">
           <div className="close" onClick={onClose}>&times;</div>   
         </div>
@@ -84,7 +85,7 @@ const ProcessModal = ({ onClose }) => {
             </div>
           </div>
         </div>
-      </div>
+      </Modal>
     </div>
   );
 };

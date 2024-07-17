@@ -4,8 +4,9 @@ import APIService from '../service/APIService.ts';
 import '../assets/scss/loginmodal.scss';
 import google from '../assets/svg/google.svg';
 import notice from '../assets/svg/notice.svg';
+import Modal from './Modal.js';
 
-const LoginModal = ({ onClose, login }) => {
+const LoginModal = ({ show,onClose, login }) => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -118,7 +119,7 @@ const switchToLogin = () => {
 
   return (
     <div className="modal">
-      <div className="modal-content-login">
+    <Modal show={show} onClose={onClose} size="modal-content-login">
         <div className="modal-header">
           <div className="close" onClick={onClose}>&times;</div>
         </div>
@@ -231,7 +232,7 @@ const switchToLogin = () => {
           </div>
           </div>
         </div>
-      </div>
+      </Modal>
     </div>
   );
 };

@@ -154,6 +154,17 @@ class APIService {
             }
         })
     };
+
+        static getOutcome = (endingId: number,token: string) => {
+        return fetch(`${this.BASE_URL}/outcome/${endingId}`, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        })
+    };
 }
 
 export default APIService;
