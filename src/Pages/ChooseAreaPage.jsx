@@ -3,12 +3,19 @@ import Navbar from '../components/navbar';
 import '../assets/scss/area.scss';
 import Citybg from '../assets/svg/city.svg';
 import Countrybg from '../assets/svg/country.svg';
+import { useNavigate } from 'react-router-dom';
+
 
 function ChooseAreaPage() {
   const [selectedArea, setSelectedArea] = useState('city');
+  const navigate = useNavigate();
 
   const onChoose = (area) => {
     setSelectedArea(area);
+  }
+
+    const handleNext = () =>{
+    navigate('/main')
   }
 
   console.log(selectedArea);
@@ -56,7 +63,7 @@ function ChooseAreaPage() {
       </div>
       
       <div className="button">
-        <div className="btn">下一步</div>
+        <div className="btn" onClick={handleNext}>下一步</div>
       </div>
       </div>
 

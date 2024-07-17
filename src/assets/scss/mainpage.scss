@@ -1,3 +1,15 @@
+  .main-page-container {
+    .main-page-left {
+      .chat-room-container {
+        .chat-box-r {
+          .chat-box-black {
+            max-height: 7.68rem;
+          }
+        }
+      }
+    }
+  }
+
 .arrow-down {
 margin-top:1.3rem;
 cursor: pointer;
@@ -8,10 +20,6 @@ cursor: pointer;
 
 .dropdown-content {
   display: none;
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 100;
   background: white;
   box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
 }
@@ -30,9 +38,19 @@ cursor: pointer;
 @media screen and (max-width:768px) {
   .main-page-container{
     flex-direction: column;
+    .main-page-left{
+      .chat-room-container{
+        .chat-box-r{
+          .chat-box-black{
+            max-height: 15rem;
+          }
+        }
+      }
+    }
   }
     .img-circle {
       width: 2.8rem;
       height: 2.8rem;
     }
+
 }

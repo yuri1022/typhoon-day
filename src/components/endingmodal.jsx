@@ -1,19 +1,16 @@
 import React from 'react';
+import Modal from './Modal';
 
-const EndingModal = ({ show, onClose, message }) => {
-  if (!show) return null;
+const EndingModal = ({ show, onClose,message }) => {
 
   return (
  <div className="modal">
-      <div className="modal-content-sm">
-        <div className="modal-header">
-          <div className="close" onClick={onClose}>&times;</div>   
-        </div>
-        <div className="modal-body">
-        <h2>{message.title}</h2>
-        <p>{message.description}</p>
+    <Modal show={show} onClose={onClose} size="modal-content-dialog">
+        <div className="modal-body m-1">
+        <p className='title-4 m-1'>{message?.name}</p>
+        <p className='body-5 m-1'>{message?.description}</p>
       </div>
-    </div>
+    </Modal>
     </div>
   );
 };

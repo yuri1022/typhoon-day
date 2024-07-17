@@ -17,6 +17,12 @@
   z-index: 100;
 }
 
+.login{
+ background: var(--black);
+ border: none;
+ height:2.5rem;
+}
+
 @media (max-width: 768px) {
   .navbar-right {
     display: none !important;
@@ -24,6 +30,11 @@
 
   .hamburger-menu {
     display: block;
+    cursor: pointer;
+    user-select: none;
+    &.active::after {
+        content: '';
+      }
   }
 
   .mobile-menu {
@@ -37,25 +48,24 @@
     border-radius: 0.3125rem;
     .about,
     .setting,
-    .collection {
+    .collection,
+    .process
+   {
       padding: 1rem;
     }
     .about,
-    .setting{
+    .setting,
+    .collection,
+    .process{
       border-bottom: 1px solid var(--grey200);
     }
+
+        .login {
+          height: 3.5rem;
+        }
   }
 
   .hamburger-menu.active+.mobile-menu {
     display: block;
-  }
-}
-
-.hamburger-menu {
-  cursor: pointer;
-  user-select: none;
-
-  &.active::after {
-    content: '';
   }
 }

@@ -1,5 +1,5 @@
 .character-item {
-  width: 9%;
+  width: 10%;
   height: 24.5rem;
   overflow: hidden;
   filter: grayscale(100%) brightness(50%);
@@ -36,7 +36,7 @@
   }
 
   &.expanded {
-    width: 22.5%;
+    width: 24.5%;
     height: auto;
     opacity: 1;
     filter: none;
