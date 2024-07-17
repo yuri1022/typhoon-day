@@ -16,11 +16,7 @@ function App() {
         <Routes>
           <Route path="/start" element={<StartPage />} />
           <Route path="/main" element={<MainPage />} />
-<<<<<<< HEAD
-          <Route path="/home" element={<HomePage />} />
           <Route path="/map" element={<MapPage />} />
-=======
->>>>>>> main
           <Route path="/collection" element={<Collection />} />
           <Route path="/area" element={<ChooseAreaPage />} />
         </Routes>
