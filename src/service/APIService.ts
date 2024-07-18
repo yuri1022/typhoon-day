@@ -25,6 +25,18 @@ class APIService {
         });
     };
 
+     static postProgress = (gameData,token:string) => {
+        return fetch(`${this.BASE_URL}/progress`, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(gameData)
+        });
+    };
+
     static getMainScreen = () => {
         return fetch(`${this.BASE_URL}/mainScreen`, {
             method: 'GET',

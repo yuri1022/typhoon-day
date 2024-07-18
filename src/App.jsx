@@ -6,11 +6,15 @@ import MainPage from './Pages/MainPage';
 import ChooseAreaPage from './Pages/ChooseAreaPage';
 import './App.scss';
 import { UserProvider } from './context/UserContext';
+import { APIProvider } from './context/APIContext';
+import { GameProvider } from './context/GameContext';
 
 
 function App() {
   return (
     <UserProvider>
+      <GameProvider>
+    <APIProvider>
     <Router>
         <Routes>
           <Route path="/start" element={<StartPage />} />
@@ -19,6 +23,8 @@ function App() {
           <Route path="/area" element={<ChooseAreaPage />} />
         </Routes>
     </Router>
+    </APIProvider>
+     </GameProvider>
     </UserProvider>
   );
 }
