@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import APIService from '../service/APIService.ts';
 import { UserContext } from './UserContext';
+import Modal from '../components/Modal.js';
 
 const GameContext = createContext();
 
@@ -11,7 +12,7 @@ export const GameProvider = ({ children }) => {
   const [selectedMessage, setSelectedMessage] = useState(null);
   const [history, setHistory] = useState([]);
   const [polling, setPolling] = useState(25);
-  const [funding, setFunding] = useState(5);
+  const [funding, setFunding] = useState(25);
   const [environment, setEnvironment] = useState(25);
   const [isOptionSelected, setIsOptionSelected] = useState(false);
   const [selectedOptionIndex, setSelectedOptionIndex] = useState(null);
@@ -42,10 +43,10 @@ export const GameProvider = ({ children }) => {
     if (polling <= 0) {
       fetchEnding(2); // 使用ID 2對應結局
     } else if (funding <= 0) {
-      fetchEnding(1); // 使用ID 1對應結局
+      fetchEnding(1); 
     } else if (environment <= 0) {
-      fetchEnding(3); // 使用ID 3對應結局
-    }
+      fetchEnding(3); 
+    } 
   }, [polling, funding, environment]);
 
  const fetchEnding = (Id) => {
@@ -54,6 +55,7 @@ export const GameProvider = ({ children }) => {
       .then(data => {
         if (data.status === 'success' && Array.isArray(data.data)) {
           const ending = data.data.find(e => e.id === Id);
+          console.log('success',data)
           if (ending) {
             setEndingMessage(ending);
             setShowEndingModal(true);
@@ -116,8 +118,6 @@ export const GameProvider = ({ children }) => {
     setShowNotice(false);
   };
 
-
-
   const handleTyphoonDecision = (decision) => {
     setShowTyphoonModal(false);
     setShowNextRoundModal(true);
@@ -125,8 +125,9 @@ export const GameProvider = ({ children }) => {
 
   const handleNextRoundDecision = (decision) => {
     setShowNextRoundModal(false);
-
-    if (decision) {
+    console.log(decision);
+    console.log('Current state:', { polling, funding, environment });
+    if (decision===true) {
       const savedData = {
         polling,
         funding,
@@ -147,8 +148,26 @@ export const GameProvider = ({ children }) => {
         .catch(error => {
           console.error('Error fetching messages:', error);
         });
-    } else {
-      console.log('遊戲結束');
+    } else if (decision === false) {
+      if (polling < 15 || funding < 15 || environment < 15) {
+        const lowValues = [];
+        if (polling < 15) lowValues.push(5); 
+        if (funding < 15) lowValues.push(4); 
+        if (environment < 15) lowValues.push(6); 
+        const selectedEnding = lowValues[Math.floor(Math.random() * lowValues.length)];
+        console.log('Selected Ending for Low Values:', selectedEnding);
+        fetchEnding(selectedEnding);
+      } else if (polling > 25 || funding > 25 || environment > 25) {
+        const highValues = [];
+        if (polling > 25) highValues.push(8); 
+        if (funding > 25) highValues.push(7); 
+        if (environment > 25) highValues.push(9); 
+        const selectedEnding = highValues[Math.floor(Math.random() * highValues.length)];
+        console.log('Selected Ending for Low Values:', selectedEnding);
+        fetchEnding(selectedEnding);
+      } else {
+        console.log('No ending conditions met.');
+      }
     }
   };
 
@@ -159,7 +178,7 @@ export const GameProvider = ({ children }) => {
 
   return (
     <GameContext.Provider
-  value={{
+      value={{
         messages,
         selectedMessage,
         selectedMessageIndex,
@@ -183,15 +202,13 @@ export const GameProvider = ({ children }) => {
     >
       {children}
       {showEndingModal && (
-        <div className="modal">
-          <div className="modal-content-dialog">
-            <p>{endingMessage.name}</p>
-            <p>{endingMessage.description}</p>
-            
-            <button className='btn' onClick={() => setShowEndingModal(false)}>關閉</button>
-          </div>
-        </div>
-      )}
+      <Modal show={showEndingModal} onClose={() => setShowEndingModal(false)} size="modal-content-dialog">
+        <div className="modal-body m-1">
+        <p className='title-4 m-1'>{endingMessage?.name}</p>
+        <p className='body-5 m-1'>{endingMessage?.description}</p>
+      </div>
+      </Modal>
+    )}
     </GameContext.Provider>
   );
 };
