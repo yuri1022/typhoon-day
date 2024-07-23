@@ -22,6 +22,10 @@ export const GameProvider = ({ children }) => {
   const [showNotice, setShowNotice] = useState(false);
   const [showEndingModal, setShowEndingModal] = useState(false);
   const [endingMessage, setEndingMessage] = useState('');
+  const [typhoonIntersects, setTyphoonIntersects] = useState(false);
+  const [typhoonRound, setTyphoonRound] = useState(0);
+  // const [corretDecision, setCorretDecision] = useState(0);
+  // const [wrongDecision, setWrongDecision] = useState(0);
 
   useEffect(() => {
     APIService.getMainScreen()
@@ -118,58 +122,93 @@ export const GameProvider = ({ children }) => {
     setShowNotice(false);
   };
 
-  const handleTyphoonDecision = (decision) => {
-    setShowTyphoonModal(false);
-    setShowNextRoundModal(true);
+  const checkTyphoonCityIntersection = () => {
+   return typhoonIntersects;
   };
 
-  const handleNextRoundDecision = (decision) => {
-    setShowNextRoundModal(false);
-    console.log(decision);
-    console.log('Current state:', { polling, funding, environment });
-    if (decision===true) {
-      const savedData = {
-        polling,
-        funding,
-        environment,
-      };
-      console.log('Saved Data:', savedData);
-      setSelectedMessage(null);
-      APIService.getMainScreen()
-        .then(response => response.json())
-        .then(data => {
-          if (data.status === 'success' && Array.isArray(data.data)) {
-            setMessages(data.data);
-            setAnsweredMessages([]);
-          } else {
-            console.error('API returned unexpected data structure:', data);
-          }
-        })
-        .catch(error => {
-          console.error('Error fetching messages:', error);
-        });
-    } else if (decision === false) {
-      if (polling < 15 || funding < 15 || environment < 15) {
-        const lowValues = [];
-        if (polling < 15) lowValues.push(5); 
-        if (funding < 15) lowValues.push(4); 
-        if (environment < 15) lowValues.push(6); 
-        const selectedEnding = lowValues[Math.floor(Math.random() * lowValues.length)];
-        console.log('Selected Ending for Low Values:', selectedEnding);
-        fetchEnding(selectedEnding);
-      } else if (polling > 25 || funding > 25 || environment > 25) {
-        const highValues = [];
-        if (polling > 25) highValues.push(8); 
-        if (funding > 25) highValues.push(7); 
-        if (environment > 25) highValues.push(9); 
-        const selectedEnding = highValues[Math.floor(Math.random() * highValues.length)];
-        console.log('Selected Ending for Low Values:', selectedEnding);
-        fetchEnding(selectedEnding);
-      } else {
-        console.log('No ending conditions met.');
-      }
+  const handleTyphoonDecision = (decision) => {
+  setShowTyphoonModal(false);
+  if (decision) {
+    if (checkTyphoonCityIntersection()) {
+    setFunding(prev => prev - 2);
+    setPolling(prev => prev + 2);
+    setShowNextRoundModal(true);; //有經過，也有放假，民調+經濟-
+    } else {  
+    fetchEnding(11); //沒經過卻放假了-提前宣布颱風假過於保守
     }
+
+  } else { //沒放假
+    if (checkTyphoonCityIntersection()) {
+      fetchEnding(14); //有經過，但沒放假-未宣布颱風假引發混亂
+    } else {  
+      setFunding(prev => prev + 2); //沒經過也沒放假，環境-經濟+
+      setEnvironment(prev => prev - 2);
+      setShowNextRoundModal(true);
+    }
+  }
+};
+
+  const handleTyphoonIntersection = (intersection) => {
+    setTyphoonIntersects(intersection);
   };
+
+const handleEndingDecisions = () => {
+  if (polling < 15 || funding < 15 || environment < 15) {
+    const lowValues = [];
+    if (polling < 15) lowValues.push(5); 
+    if (funding < 15) lowValues.push(4); 
+    if (environment < 15) lowValues.push(6); 
+    const selectedEnding = lowValues[Math.floor(Math.random() * lowValues.length)];
+    console.log('Selected Ending for Low Values:', selectedEnding);
+    fetchEnding(selectedEnding);
+  } else if (polling > 25 || funding > 25 || environment > 25) {
+    const highValues = [];
+    if (polling > 25) highValues.push(8); 
+    if (funding > 25) highValues.push(7); 
+    if (environment > 25) highValues.push(9); 
+    const selectedEnding = highValues[Math.floor(Math.random() * highValues.length)];
+    console.log('Selected Ending for High Values:', selectedEnding);
+    fetchEnding(selectedEnding);
+  } else {
+    console.log('No ending conditions met.');
+  }
+};
+
+const handleNextRoundDecision = (decision) => {
+  setShowNextRoundModal(false);
+  console.log(decision);
+  console.log('Current state:', { polling, funding, environment });
+
+  if (decision === true) {
+    const savedData = {
+      polling,
+      funding,
+      environment,
+    };
+    console.log('Saved Data:', savedData);
+    setTyphoonRound(prevRound => prevRound + 1);
+    if (typhoonRound + 1 >= 3) {
+      handleEndingDecisions();
+      return;
+    }
+    setSelectedMessage(null);
+    APIService.getMainScreen()
+      .then(response => response.json())
+      .then(data => {
+        if (data.status === 'success' && Array.isArray(data.data)) {
+          setMessages(data.data);
+          setAnsweredMessages([]);
+        } else {
+          console.error('API returned unexpected data structure:', data);
+        }
+      })
+      .catch(error => {
+        console.error('Error fetching messages:', error);
+      });
+  } else if (decision === false) {
+    handleEndingDecisions(); // 调用结算逻辑函数
+  }
+};
 
   const numberToChinese = (num) => {
     const chineseNumbers = ["一", "二", "三", "四", "五", "六", "七", "八", "九", "十"];
@@ -197,7 +236,8 @@ export const GameProvider = ({ children }) => {
         handleTyphoonDecision,
         handleNextRoundDecision,
         numberToChinese,
-        handleCloseNoticeModal
+        handleCloseNoticeModal,
+        handleTyphoonIntersection,
       }}
     >
       {children}

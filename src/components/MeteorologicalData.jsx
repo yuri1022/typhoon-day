@@ -1,12 +1,13 @@
-import React, { useEffect } from 'react';
+import React, { useState,useEffect } from 'react';
 import Map from '@arcgis/core/Map.js';
 import MapView from '@arcgis/core/views/MapView.js';
 import Graphic from '@arcgis/core/Graphic.js';
 import { intersects } from '@arcgis/core/geometry/geometryEngine.js';
 import { CityRange } from '../assets/data/CityRange';
 
-function DataModal({ onClose }) {
+function DataModal({ onClose, onTyphoonIntersection }) {
   var count = 0;
+  const [typhoonIntersects, setTyphoonIntersects] = useState(false);
 
   function init() {
     if (count === 0) {
@@ -91,7 +92,6 @@ function DataModal({ onClose }) {
     const intersection = intersects(cityPolygon, typhoonCircle);
     if (intersection) {
       console.log("Typhoon path intersects with the city");
-      // 在这里你可以进行更多操作，比如显示提示信息
     } else {
       console.log("Typhoon path does not intersect with the city");
     }
@@ -100,6 +100,12 @@ function DataModal({ onClose }) {
   useEffect(() => {
     init();
   }, []);
+
+    useEffect(() => {
+    if (typhoonIntersects) {
+      onTyphoonIntersection(typhoonIntersects);
+    }
+  }, [typhoonIntersects, onTyphoonIntersection]);
 
   return (
     <div className="modal">
