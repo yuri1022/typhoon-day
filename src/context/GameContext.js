@@ -24,8 +24,7 @@ export const GameProvider = ({ children }) => {
   const [endingMessage, setEndingMessage] = useState('');
   const [typhoonIntersects, setTyphoonIntersects] = useState(false);
   const [typhoonRound, setTyphoonRound] = useState(0);
-  // const [corretDecision, setCorretDecision] = useState(0);
-  // const [wrongDecision, setWrongDecision] = useState(0);
+  const [holidayNumber, setHolidayNumber] = useState(0);
 
   useEffect(() => {
     APIService.getMainScreen()
@@ -129,19 +128,25 @@ export const GameProvider = ({ children }) => {
   const handleTyphoonDecision = (decision) => {
   setShowTyphoonModal(false);
   if (decision) {
+    setHolidayNumber(prev => prev + 1);
     if (checkTyphoonCityIntersection()) {
     setFunding(prev => prev - 2);
     setPolling(prev => prev + 2);
-    setShowNextRoundModal(true);; //有經過，也有放假，民調+經濟-
+    const secondEnding=[10,13,16];
+    const selectedEnding = secondEnding[Math.floor(Math.random() * secondEnding.length)];
+    console.log('Selected Ending for correct decision:', selectedEnding);
+    fetchEnding(selectedEnding);
+    setShowNextRoundModal(true); //有經過有放假：民調+經濟-，解鎖一個好結局遊戲繼續
     } else {  
-    fetchEnding(11); //沒經過卻放假了-提前宣布颱風假過於保守
+    fetchEnding(11); //沒經過卻放假了:提前宣布颱風假過於保守，遊戲繼續
+    setShowNextRoundModal(true); 
     }
 
   } else { //沒放假
     if (checkTyphoonCityIntersection()) {
-      fetchEnding(14); //有經過，但沒放假-未宣布颱風假引發混亂
+      fetchEnding(14); //有經過，但沒放假:未宣布颱風假引發混亂
     } else {  
-      setFunding(prev => prev + 2); //沒經過也沒放假，環境-經濟+
+      setFunding(prev => prev + 2); //沒經過也沒放假：環境-經濟+
       setEnvironment(prev => prev - 2);
       setShowNextRoundModal(true);
     }
@@ -153,7 +158,13 @@ export const GameProvider = ({ children }) => {
   };
 
 const handleEndingDecisions = () => {
-  if (polling < 15 || funding < 15 || environment < 15) {
+  if (holidayNumber + 1 >= 3){
+    const fourthEnding=[12,15];
+    const selectedEnding = fourthEnding[Math.floor(Math.random() * fourthEnding.length)];
+    console.log('Selected Ending for holiday decision:', selectedEnding);
+    fetchEnding(selectedEnding);
+  }
+  else if (polling < 15 || funding < 15 || environment < 15) {
     const lowValues = [];
     if (polling < 15) lowValues.push(5); 
     if (funding < 15) lowValues.push(4); 
