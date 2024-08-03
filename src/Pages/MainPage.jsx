@@ -11,7 +11,7 @@ import NextRoundModal from '../components/nextroundmodal.jsx';
 import { useGame } from '../context/GameContext';
 
 function MainPage() {
-  const {
+ const {
     messages,
     selectedMessage,
     history,
@@ -29,7 +29,9 @@ function MainPage() {
     handleTyphoonDecision,
     handleNextRoundDecision,
     numberToChinese,
-    handleCloseNoticeModal
+    handleCloseNoticeModal,
+    handleTyphoonIntersection, 
+    handleEventChoice,
   } = useGame();
 
   const [showDropdown, setShowDropdown] = useState(false);
@@ -44,7 +46,9 @@ function MainPage() {
   const closeDataModal = () => setShowData(false);
   const openHistoryModal = () => setShowHistory(true);
   const closeHistoryModal = () => setShowHistory(false);
-
+  const handleChoice = (messageId, choice) => {
+    handleEventChoice(messageId, choice);
+  };
   return (
     <>
       <Navbar />
@@ -114,7 +118,7 @@ function MainPage() {
                   </div>
                 </div>
               )}
-              {showData && <DataModal onClose={closeDataModal} />}
+              {showData && <DataModal onClose={closeDataModal} onTyphoonIntersection={handleTyphoonIntersection} />}
               {showHistory && <HistoryModal onClose={closeHistoryModal} history={history} />}
 
             </div>

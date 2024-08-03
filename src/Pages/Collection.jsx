@@ -1,9 +1,11 @@
-import React , {useState} from 'react';
+import React , {useState,useEffect,useContext} from 'react';
 import Navbar from '../components/navbar';
 import CharacterItem from '../components/characteritem';
 import '../assets/scss/collection.scss';
 import EndingModal from '../components/endingmodal';
 import { useAPI } from '../context/APIContext';
+import { UserContext } from '../context/UserContext';
+import { useNavigate } from 'react-router-dom';
 
 
 function Collection() {
@@ -11,6 +13,16 @@ function Collection() {
   const [modalVisible, setModalVisible] = useState(false);
   const [currentMessage, setCurrentMessage] = useState(null);
   const { characters, endings } = useAPI();
+  const { user } = useContext(UserContext);
+  const navigate = useNavigate();
+
+    useEffect(() => {
+    if (!user) {
+      alert('please Login!');
+      navigate('/start');
+    }
+  }, [user]);
+
 
   const handleNext = () => {
     setActiveIndex((prevIndex) => (prevIndex + 1) % characters.length);

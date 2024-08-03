@@ -25,20 +25,35 @@ export const GameProvider = ({ children }) => {
   const [typhoonIntersects, setTyphoonIntersects] = useState(false);
   const [typhoonRound, setTyphoonRound] = useState(0);
   const [holidayNumber, setHolidayNumber] = useState(0);
+  const [events, setEvents] = useState([]);
+  const [eventTriggered, setEventTriggered] = useState(false);
 
-  useEffect(() => {
+ useEffect(() => {
     APIService.getMainScreen()
       .then(response => response.json())
       .then(data => {
         if (data.status === 'success' && Array.isArray(data.data)) {
           setMessages(data.data);
-          setSelectedMessage(null);
         } else {
           console.error('API returned unexpected data structure:', data);
         }
       })
       .catch(error => {
         console.error('Error fetching messages:', error);
+      });
+
+    APIService.getEvents()
+      .then(response => response.json())
+      .then(data => {
+        if (data.status === 'success' && Array.isArray(data.data)) {
+          setEvents(data.data);
+          console.log('events',data.data)
+        } else {
+          console.error('API returned unexpected data structure:', data);
+        }
+      })
+      .catch(error => {
+        console.error('Error fetching events:', error);
       });
   }, []);
 
@@ -144,7 +159,8 @@ export const GameProvider = ({ children }) => {
 
   } else { //沒放假
     if (checkTyphoonCityIntersection()) {
-      fetchEnding(14); //有經過，但沒放假:未宣布颱風假引發混亂
+      fetchEnding(14); //有經過，但沒放假:未宣布引發混亂，遊戲繼續
+      setShowNextRoundModal(true); 
     } else {  
       setFunding(prev => prev + 2); //沒經過也沒放假：環境-經濟+
       setEnvironment(prev => prev - 2);
@@ -217,9 +233,21 @@ const handleNextRoundDecision = (decision) => {
         console.error('Error fetching messages:', error);
       });
   } else if (decision === false) {
-    handleEndingDecisions(); // 调用结算逻辑函数
+    handleEndingDecisions(); 
   }
 };
+
+const handleEventChoice = (eventId, choice) => {
+    const event = events.find(event => event.id === eventId);
+    if (event) {
+      const outcome = event[choice];
+      if (outcome) {
+        alert(outcome);  // 简单弹出结果
+        // 处理其他逻辑，例如根据选择更新状态
+      }
+    }
+  };
+
 
   const numberToChinese = (num) => {
     const chineseNumbers = ["一", "二", "三", "四", "五", "六", "七", "八", "九", "十"];
@@ -249,6 +277,7 @@ const handleNextRoundDecision = (decision) => {
         numberToChinese,
         handleCloseNoticeModal,
         handleTyphoonIntersection,
+        handleEventChoice,
       }}
     >
       {children}
