@@ -8,22 +8,40 @@ function DataModal({ onClose }) {
   var count = 0;
 
   function init() {
-    if(count == 0) {
+    if (count == 0) {
       count++;
 
+      // https://developers.arcgis.com/javascript/latest/api-reference/esri-Map.html#basemap
+      /**
+       * 
+        satellite
+        hybrid
+        oceans
+        osm
+        terrain
+        dark-gray / dark-gray-vector
+        gray / gray-vector
+        streets / streets-vector
+        streets-night-vector
+        streets-navigation-vector
+        topo / topo-vector
+        streets-relief-vector
+       */
       const map = new Map({
-        basemap: "hybrid"
+        basemap: "dark-gray"
       });
-  
+
+      //map.basemap.style = { ...map.basemap.style, language: "local" }
+
       const view = new MapView({
         center: [121, 24],
         container: "viewDiv",
         map: map,
         zoom: 7
       });
-  
+
       drawCity(view, CityRange.Taipei);
-  
+
       drawCircle(view, 122, 23, 1);
     }
   }
