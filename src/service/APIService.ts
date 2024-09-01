@@ -1,7 +1,7 @@
 
 
 class APIService {
-    static BASE_URL = "http://13.231.143.123:3333";
+    static BASE_URL = "http://35.188.160.121:3333";
 
  static signIn = (userData) => {
         return fetch(`${this.BASE_URL}/signin`, {

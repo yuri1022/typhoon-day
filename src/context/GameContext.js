@@ -42,19 +42,6 @@ export const GameProvider = ({ children }) => {
         console.error('Error fetching messages:', error);
       });
 
-    APIService.getEvents()
-      .then(response => response.json())
-      .then(data => {
-        if (data.status === 'success' && Array.isArray(data.data)) {
-          setEvents(data.data);
-          console.log('events',data.data)
-        } else {
-          console.error('API returned unexpected data structure:', data);
-        }
-      })
-      .catch(error => {
-        console.error('Error fetching events:', error);
-      });
   }, []);
 
   useEffect(() => {
@@ -237,17 +224,21 @@ const handleNextRoundDecision = (decision) => {
   }
 };
 
-const handleEventChoice = (eventId, choice) => {
-    const event = events.find(event => event.id === eventId);
-    if (event) {
-      const outcome = event[choice];
-      if (outcome) {
-        alert(outcome);  // 简单弹出结果
-        // 处理其他逻辑，例如根据选择更新状态
-      }
-    }
+const fetchEvent = (eventId) => {
+     APIService.getEvents()
+      .then(response => response.json())
+      .then(data => {
+        if (data.status === 'success' && Array.isArray(data.data)) {
+          setEvents(data.data);
+          console.log('events',data.data)
+        } else {
+          console.error('API returned unexpected data structure:', data);
+        }
+      })
+      .catch(error => {
+        console.error('Error fetching events:', error);
+      });
   };
-
 
   const numberToChinese = (num) => {
     const chineseNumbers = ["一", "二", "三", "四", "五", "六", "七", "八", "九", "十"];
@@ -277,7 +268,6 @@ const handleEventChoice = (eventId, choice) => {
         numberToChinese,
         handleCloseNoticeModal,
         handleTyphoonIntersection,
-        handleEventChoice,
       }}
     >
       {children}

@@ -19,6 +19,7 @@ function App() {
     <Router>
         <Routes>
           <Route path="/start" element={<StartPage />} />
+          <Route path="*" element={<StartPage />} />
           <Route path="/main" element={<MainPage />} />
           <Route path="/map" element={<MapPage />} />
           <Route path="/collection" element={<Collection />} />
