@@ -1,14 +1,16 @@
-import { React, useEffect } from 'react';
+import React, { useState,useEffect } from 'react';
 import Map from '@arcgis/core/Map.js';
 import MapView from '@arcgis/core/views/MapView.js';
 import Graphic from '@arcgis/core/Graphic.js';
+import { intersects } from '@arcgis/core/geometry/geometryEngine.js';
 import { CityRange } from '../assets/data/CityRange';
 
-function DataModal({ onClose }) {
+function DataModal({ onClose, onTyphoonIntersection }) {
   var count = 0;
+  const [typhoonIntersects, setTyphoonIntersects] = useState(false);
 
   function init() {
-    if (count == 0) {
+    if (count === 0) {
       count++;
 
       // https://developers.arcgis.com/javascript/latest/api-reference/esri-Map.html#basemap
@@ -31,8 +33,6 @@ function DataModal({ onClose }) {
         basemap: "dark-gray"
       });
 
-      //map.basemap.style = { ...map.basemap.style, language: "local" }
-
       const view = new MapView({
         center: [121, 24],
         container: "viewDiv",
@@ -40,76 +40,89 @@ function DataModal({ onClose }) {
         zoom: 7
       });
 
-      drawCity(view, CityRange.Taipei);
+      
+      const cityPolygon = drawCity(view, CityRange.Taipei);
 
-      drawCircle(view, 122, 23, 1);
+      const typhoonCircle = drawCircle(view, 122, 23, 1);
+
+      checkTyphoonCityIntersection(cityPolygon, typhoonCircle);
     }
   }
 
   function drawCity(view, points) {
-    // Create a polygon geometry
     const polygon = {
-      type: "polygon", // autocasts as new Polygon()
+      type: "polygon",
       rings: points
     };
 
-    // Create a symbol for rendering the graphic
     const fillSymbol = {
-      type: "simple-fill", // autocasts as new SimpleFillSymbol()
+      type: "simple-fill",
       color: [227, 0, 0, 0.2],
       outline: {
-        // autocasts as new SimpleLineSymbol()
         color: [200, 0, 0],
         width: 1
       }
     };
 
-    // Add the geometry and symbol to a new graphic
     const polygonGraphic = new Graphic({
       geometry: polygon,
       symbol: fillSymbol
     });
 
     view.graphics.addMany([polygonGraphic]);
+
+    return polygonGraphic.geometry;
   }
 
   function drawCircle(view, posiX, posiY, radius) {
     var segment = 24;
     var points = [];
-    var i = 0;
-    for (i = 0; i < segment; ++i) {
+    for (let i = 0; i < segment; ++i) {
       points.push([posiX + radius * Math.cos(2 * i * Math.PI / segment), posiY + radius * Math.sin(2 * i * Math.PI / segment)]);
     }
 
-    // Create a polygon geometry
     const polygon = {
-      type: "polygon", // autocasts as new Polygon()
+      type: "polygon",
       rings: points
     };
 
-    // Create a symbol for rendering the graphic
     const fillSymbol = {
-      type: "simple-fill", // autocasts as new SimpleFillSymbol()
+      type: "simple-fill",
       color: [227, 0, 0, 0.2],
       outline: {
-        // autocasts as new SimpleLineSymbol()
         color: [200, 0, 0],
         width: 1
       }
     };
 
-    // Add the geometry and symbol to a new graphic
     const polygonGraphic = new Graphic({
       geometry: polygon,
       symbol: fillSymbol
     });
 
     view.graphics.addMany([polygonGraphic]);
+
+    return polygonGraphic.geometry;
+  }
+
+  function checkTyphoonCityIntersection(cityPolygon, typhoonCircle) {
+    const intersection = intersects(cityPolygon, typhoonCircle);
+    if (intersection) {
+      console.log("Typhoon path intersects with the city");
+    } else {
+      console.log("Typhoon path does not intersect with the city");
+    }
   }
 
   useEffect(() => {
     init();
   }, []);
+
+    useEffect(() => {
+    if (typhoonIntersects) {
+      onTyphoonIntersection(typhoonIntersects);
+    }
+  }, [typhoonIntersects, onTyphoonIntersection]);
 
   return (
     <div className="modal">
@@ -122,11 +135,10 @@ function DataModal({ onClose }) {
             <div className="data-title title-3 text-center">
               氣象資料
             </div>
-            <div id="viewDiv" className="typhoon-pic-container w100 bd-2 bdrs-5 mt-2" style={{ height: '29rem' }}>
+            <div id="viewDiv" className="typhoon-pic-container w100 bd-2 bdrs-5 mt-2" style={{ height: '25rem' }}>
             </div>
           </div>
         </div>
-
       </div>
     </div>
   );

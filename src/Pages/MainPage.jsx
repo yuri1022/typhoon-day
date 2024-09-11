@@ -1,33 +1,42 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Navbar from '../components/navbar';
 import Major from '../assets/svg/major_collection.svg';
 import ArrowDown from '../assets/svg/arrowdown.svg';
 import DataModal from '../components/MeteorologicalData';
 import HistoryModal from '../components/replyhistory';
 import '../assets/scss/mainpage.scss';
-import APIService from '../service/APIService.ts';
 import NoticeModal from '../components/noticemodal.jsx';
 import TyphoonModal from '../components/typhoonmodal.jsx';
 import NextRoundModal from '../components/nextroundmodal.jsx';
+import { useGame } from '../context/GameContext';
 
 function MainPage() {
+ const {
+    messages,
+    selectedMessage,
+    history,
+    polling,
+    funding,
+    environment,
+    isOptionSelected,
+    selectedOptionIndex,
+    answeredMessages,
+    showNotice,
+    showTyphoonModal,
+    showNextRoundModal,
+    handleReplyClick,
+    handleOptionClick,
+    handleTyphoonDecision,
+    handleNextRoundDecision,
+    numberToChinese,
+    handleCloseNoticeModal,
+    handleTyphoonIntersection, 
+    handleEventChoice,
+  } = useGame();
+
   const [showDropdown, setShowDropdown] = useState(false);
   const [showData, setShowData] = useState(false);
   const [showHistory, setShowHistory] = useState(false);
-  const [showNotice, setShowNotice] = useState(false);
-  const [showTyphoonModal, setShowTyphoonModal] = useState(false); 
-  const [messages, setMessages] = useState([]);
-  const [selectedMessageIndex, setSelectedMessageIndex] = useState(null);
-  const [selectedMessage, setSelectedMessage] = useState(null);
-  const [history, setHistory] = useState([]);
-  const [polling, setPolling] = useState(25);
-  const [funding, setFunding] = useState(25);
-  const [environment, setEnvironment] = useState(25);
-  const [isOptionSelected, setIsOptionSelected] = useState(false);
-  const [selectedOptionIndex, setSelectedOptionIndex] = useState(null);
-  const [answeredMessages, setAnsweredMessages] = useState([]);
-  const [showNextRoundModal, setShowNextRoundModal] = useState(false); 
-
 
   const toggleDropdown = () => {
     setShowDropdown(!showDropdown);
@@ -37,99 +46,9 @@ function MainPage() {
   const closeDataModal = () => setShowData(false);
   const openHistoryModal = () => setShowHistory(true);
   const closeHistoryModal = () => setShowHistory(false);
-  const closeNoticeModal = () => setShowNotice(false);
-
-  useEffect(() => {
-    APIService.getMainScreen()
-      .then(response => response.json())
-      .then(data => {
-        if (data.status === 'success' && Array.isArray(data.data)) {
-          setMessages(data.data);
-          setSelectedMessage(null);
-        } else {
-          console.error('API returned unexpected data structure:', data);
-        }
-      })
-      .catch(error => {
-        console.error('Error fetching messages:', error);
-      });
-  }, []);
-
-const handleReplyClick = (message,messageIndex) => {
-   if (answeredMessages.includes(messageIndex)) {
-    return;
-  }
-  setSelectedMessageIndex(messageIndex);
-  setSelectedMessage(message);
-  setIsOptionSelected(false);
-};
-
-useEffect(() => {
-  if (selectedMessage) {
-    console.log(selectedMessage);
-  }
-}, [selectedMessage]);
-
-const handleOptionClick = (option,index) => {
-    if (isOptionSelected) return;
-    setPolling(prev => prev + option.polling);
-    setFunding(prev => prev + option.funding);
-    setEnvironment(prev => prev + option.environment);
-    const newHistoryItem = {
-      message: selectedMessage.comment,
-      option: option.description,
-    };
-
-    setHistory(prevHistory => [...prevHistory, newHistoryItem]);
-     setIsOptionSelected(true);
-     setSelectedOptionIndex(index);
-     setShowNotice(true);
-    setAnsweredMessages([...answeredMessages, selectedMessageIndex]);
-
-     if (answeredMessages.length + 1 === messages.length) {
-      setShowTyphoonModal(true);
-    }
+  const handleChoice = (messageId, choice) => {
+    handleEventChoice(messageId, choice);
   };
-
-  const handleTyphoonDecision = (decision) => {
-    console.log(decision);
-    setShowTyphoonModal(false);
-    setShowNextRoundModal(true);
-  };
-
-  const handleNextRoundDecision = (decision) => {
-    setShowNextRoundModal(false);
-    
-    if (decision) {
-       const savedData = {
-        polling,
-        funding,
-        environment,
-      };
-      console.log('Saved Data:', savedData);
-      setSelectedMessage(null);
-      APIService.getMainScreen()
-        .then(response => response.json())
-        .then(data => {
-          if (data.status === 'success' && Array.isArray(data.data)) {
-            setMessages(data.data);
-            setAnsweredMessages([]);
-          } else {
-            console.error('API returned unexpected data structure:', data);
-          }
-        })
-        .catch(error => {
-          console.error('Error fetching messages:', error);
-        });
-    } else {
-      console.log('遊戲結束');
-    }
-  };
-const numberToChinese = (num) => {
-  const chineseNumbers = ["一", "二", "三", "四", "五", "六", "七", "八", "九", "十"];
-  return chineseNumbers[num - 1];
-};
-
   return (
     <>
       <Navbar />
@@ -199,7 +118,7 @@ const numberToChinese = (num) => {
                   </div>
                 </div>
               )}
-              {showData && <DataModal onClose={closeDataModal} />}
+              {showData && <DataModal onClose={closeDataModal} onTyphoonIntersection={handleTyphoonIntersection} />}
               {showHistory && <HistoryModal onClose={closeHistoryModal} history={history} />}
 
             </div>
@@ -239,10 +158,9 @@ const numberToChinese = (num) => {
                 ))}
                
               </div>
-
-            {showNotice && <NoticeModal show={showNotice} onClose={closeNoticeModal} option={selectedMessage.options[selectedOptionIndex]}/>}
-             {showTyphoonModal && <TyphoonModal show={showTyphoonModal} onClose={handleTyphoonDecision} />}
-             {showNextRoundModal && <NextRoundModal onClose={handleNextRoundDecision} />}
+              {showNotice && <NoticeModal show={showNotice} onClose={handleCloseNoticeModal} option={selectedMessage.options[selectedOptionIndex]} />}
+              {showTyphoonModal && <TyphoonModal show={showTyphoonModal} onClose={handleTyphoonDecision} />}
+              {showNextRoundModal && <NextRoundModal onClose={handleNextRoundDecision} />}
             </div>
           </div>            
           </div>

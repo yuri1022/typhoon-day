@@ -1,15 +1,34 @@
-import React from 'react';
+import React , { useState,useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
 import Navbar from '../components/navbar';
 import '../assets/scss/startpage.scss';
 import Logo from '../assets/svg/LOGO.svg';
+import { UserContext } from '../context/UserContext';
+import AlertModal from '../components/alertmodal';
 
 function StartPage() {
+  const { user } = useContext(UserContext);
   const navigate = useNavigate();
-  const handleStart = () =>{
-    navigate('/area')
-  }
+  const [showAlertModal, setShowAlertModal] = useState(false);
+
+  const handleStart = () => {
+    if (user) {
+      navigate('/area');
+    } else {
+      setShowAlertModal(true);
+    }
+  };
+
+   const handleCloseModal = () => {
+    setShowAlertModal(false);
+  };
+
+  const handleConfirm = () => {
+    setShowAlertModal(false);
+    navigate('/area');
+  };
+
 
   return (
 <div className='homepage' style={{ height: '100vh' }}>
@@ -32,6 +51,7 @@ function StartPage() {
           </div>
         </div>
       </div>
+       {showAlertModal&& <AlertModal show={showAlertModal} handleStart={handleConfirm} onClose={handleCloseModal} />}
     </div>
   );
 }

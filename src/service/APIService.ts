@@ -1,7 +1,7 @@
 
 
 class APIService {
-    static BASE_URL = "http://13.231.143.123:3333";
+    static BASE_URL = "http://104.199.129.193:3333";
 
  static signIn = (userData) => {
         return fetch(`${this.BASE_URL}/signin`, {
@@ -22,6 +22,18 @@ class APIService {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(userData)
+        });
+    };
+
+     static postProgress = (gameData,token:string) => {
+        return fetch(`${this.BASE_URL}/progress`, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(gameData)
         });
     };
 
