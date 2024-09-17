@@ -1,9 +1,11 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import Map from '@arcgis/core/Map.js';
 import MapView from '@arcgis/core/views/MapView.js';
 import Graphic from '@arcgis/core/Graphic.js';
+import Circle from "@arcgis/core/geometry/Circle.js";
 import { intersects } from '@arcgis/core/geometry/geometryEngine.js';
 import { CityRange } from '../assets/data/CityRange';
+import APIService from '../service/APIService.ts';
 
 function DataModal({ onClose, onTyphoonIntersection }) {
   var count = 0;
@@ -37,15 +39,52 @@ function DataModal({ onClose, onTyphoonIntersection }) {
         center: [121, 24],
         container: "viewDiv",
         map: map,
-        zoom: 7
+        zoom: 5
       });
 
-      
-      const cityPolygon = drawCity(view, CityRange.Taipei);
+      const selectedArea = localStorage.getItem('typhoonday-selectedArea');
 
-      const typhoonCircle = drawCircle(view, 122, 23, 1);
+      const cityPolygon = drawCity(view, selectedArea === 'city' ? CityRange.Taipei : CityRange.Hualien);
 
-      checkTyphoonCityIntersection(cityPolygon, typhoonCircle);
+      // Get predict data
+      APIService.getTyphoonPredict()
+        .then(response => response.json())
+        .then(res => {
+          if (res.status === 'success') {
+            var prevLocation = null;
+
+            res.data.data.forEach(typhoonLocation => {
+              console.log(typhoonLocation);
+              drawCircle(view, typhoonLocation.longitude, typhoonLocation.latitude, typhoonLocation.radius, 'solid');
+              drawCircle(view, typhoonLocation.longitude, typhoonLocation.latitude, 10, 'solid');   // 畫颱風中心的圓
+
+              if(prevLocation) {
+                drawLine(view, prevLocation[0], prevLocation[1], typhoonLocation.longitude, typhoonLocation.latitude, 'solid')
+              }
+              prevLocation = [typhoonLocation.longitude, typhoonLocation.latitude]
+            });
+
+            res.data.predictData.forEach(predictLocation => {
+              console.log(predictLocation);
+              drawCircle(view, predictLocation.longitude, predictLocation.latitude, predictLocation.radius, 'dash');
+              drawCircle(view, predictLocation.longitude, predictLocation.latitude, 10, 'dash');  // 畫颱風中心的圓
+
+              if(prevLocation) {
+                drawLine(view, prevLocation[0], prevLocation[1], predictLocation.longitude, predictLocation.latitude, 'dash')
+              }
+              prevLocation = [predictLocation.longitude, predictLocation.latitude]
+            });
+          } else {
+            console.error(res.message);
+          }
+        })
+        .catch(error => {
+          console.error(error);
+        });;
+
+      //const typhoonCircle = drawCircle(view, 122, 23, 100, 'solid');
+
+      //checkTyphoonCityIntersection(cityPolygon, typhoonCircle);
     }
   }
 
@@ -60,7 +99,7 @@ function DataModal({ onClose, onTyphoonIntersection }) {
       color: [227, 0, 0, 0.2],
       outline: {
         color: [200, 0, 0],
-        width: 1
+        width: 1,
       }
     };
 
@@ -74,35 +113,60 @@ function DataModal({ onClose, onTyphoonIntersection }) {
     return polygonGraphic.geometry;
   }
 
-  function drawCircle(view, posiX, posiY, radius) {
-    var segment = 24;
-    var points = [];
-    for (let i = 0; i < segment; ++i) {
-      points.push([posiX + radius * Math.cos(2 * i * Math.PI / segment), posiY + radius * Math.sin(2 * i * Math.PI / segment)]);
-    }
+  function drawCircle(view, posiX, posiY, radius, style) {
 
-    const polygon = {
-      type: "polygon",
-      rings: points
-    };
+    const circleGeometry = new Circle({
+      center: [posiX, posiY],
+      geodesic: true,
+      numberOfPoints: 36,
+      radius: radius,
+      radiusUnit: "kilometers"
+    });
 
     const fillSymbol = {
       type: "simple-fill",
       color: [227, 0, 0, 0.2],
       outline: {
         color: [200, 0, 0],
-        width: 1
+        width: 1,
+        style: style
       }
     };
 
     const polygonGraphic = new Graphic({
-      geometry: polygon,
+      geometry: circleGeometry,
       symbol: fillSymbol
     });
 
     view.graphics.addMany([polygonGraphic]);
 
     return polygonGraphic.geometry;
+  }
+
+  function drawLine(view, startPosiX, startPosiY, endPosiX, endPosiY, style) {
+    const polyline = {
+      type: "polyline",
+      paths: [
+        [startPosiX, startPosiY], //Longitude, latitude
+        [endPosiX, endPosiY], //Longitude, latitude
+      ]
+    };
+
+    const simpleLineSymbol = {
+      type: "simple-line",
+      color: [200, 0, 0], // Orange
+      width: 1,
+      style: style
+    };
+
+    const polylineGraphic = new Graphic({
+      geometry: polyline,
+      symbol: simpleLineSymbol
+    });
+
+    view.graphics.add(polylineGraphic);
+
+    return polylineGraphic.geometry;
   }
 
   function checkTyphoonCityIntersection(cityPolygon, typhoonCircle) {
@@ -118,7 +182,7 @@ function DataModal({ onClose, onTyphoonIntersection }) {
     init();
   }, []);
 
-    useEffect(() => {
+  useEffect(() => {
     if (typhoonIntersects) {
       onTyphoonIntersection(typhoonIntersects);
     }
