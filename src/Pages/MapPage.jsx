@@ -1,5 +1,6 @@
 import { React, useEffect, useState } from 'react';
 import Map from '@arcgis/core/Map.js';
+import Circle from "@arcgis/core/geometry/Circle.js";
 import MapView from '@arcgis/core/views/MapView.js';
 import Graphic from '@arcgis/core/Graphic.js';
 import '../Styles/map.css';
@@ -7,7 +8,7 @@ import { CityRange } from '../assets/data/CityRange';
 
 function init() {
     const map = new Map({
-        basemap: "hybrid"
+        basemap: "topo-vector"
     });
 
     const view = new MapView({
@@ -181,6 +182,32 @@ function drawCircle(view, posiX, posiY, radius) {
         rings: points
     };
 
+    var circleGeometry = new Circle({
+        center: [posiX, posiY],
+        geodesic: true,
+        numberOfPoints: 36,
+        radius: 100,
+        radiusUnit: "kilometers"
+    });
+
+    setTimeout(()=>{
+        console.log("move");
+        circleGeometry.center = [posiX-1, posiY-1];
+        const circleGraphic = new Graphic({
+            geometry: circleGeometry,
+            symbol: {
+                type: "simple-fill",
+                style: "none",
+                color: [0, 227, 0, 0.2],
+                outline: {
+                    width: 1,
+                    color: [0, 200, 0],
+                }
+            }
+        });
+        view.graphics.addMany([circleGraphic]);
+    },5000)
+
     // Create a symbol for rendering the graphic
     const fillSymbol = {
         type: "simple-fill", // autocasts as new SimpleFillSymbol()
@@ -198,7 +225,20 @@ function drawCircle(view, posiX, posiY, radius) {
         symbol: fillSymbol
     });
 
-    view.graphics.addMany([polygonGraphic]);
+    const circleGraphic = new Graphic({
+        geometry: circleGeometry,
+        symbol: {
+            type: "simple-fill",
+            style: "none",
+            color: [0, 227, 0, 0.2],
+            outline: {
+                width: 1,
+                color: [0, 200, 0],
+            }
+        }
+    });
+
+    view.graphics.addMany([polygonGraphic, circleGraphic]);
 }
 
 function MapPage() {
