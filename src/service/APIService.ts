@@ -167,13 +167,33 @@ class APIService {
         })
     };
 
-        static getOutcome = (endingId: number,token: string) => {
+    static getOutcome = (endingId: number,token: string) => {
         return fetch(`${this.BASE_URL}/outcome/${endingId}`, {
             method: 'GET',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
+            }
+        })
+    };
+
+    static getTyphoonPredict = () => {
+        return fetch(`${this.BASE_URL}/typhoonPredict`, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        })
+    };
+
+    static getTyphoonActual = (typhoonId: number) => {
+        return fetch(`${this.BASE_URL}/typhoonActual?id=${typhoonId}`, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
             }
         })
     };

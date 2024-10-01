@@ -1,8 +1,8 @@
-import React ,{useState}from 'react';
+import React ,{useState,useEffect}from 'react';
 import Navbar from '../components/navbar';
 import '../assets/scss/area.scss';
 import Citybg from '../assets/svg/city.svg';
-import Countrybg from '../assets/svg/country.svg';
+import Countybg from '../assets/svg/county.svg';
 import { useNavigate } from 'react-router-dom';
 
 
@@ -10,7 +10,13 @@ function ChooseAreaPage() {
   const [selectedArea, setSelectedArea] = useState('city');
   const navigate = useNavigate();
 
+  useEffect(() => {
+    //initial set selected area = city
+    localStorage.setItem('typhoonday-selectedArea', 'city');
+  },[]);
+
   const onChoose = (area) => {
+    localStorage.setItem('typhoonday-selectedArea', area);
     setSelectedArea(area);
   }
 
@@ -33,7 +39,7 @@ function ChooseAreaPage() {
           <div className="title-2">城市</div>
           </div>        
         </div>
-      <div className={`choose-item-mb h100 col-6 ${selectedArea === 'country' ? 'active' : 'inactive'}`} onClick={() => onChoose('country')}>
+      <div className={`choose-item-mb h100 col-6 ${selectedArea === 'county' ? 'active' : 'inactive'}`} onClick={() => onChoose('county')}>
         <div className="item d-flex align-items-center justify-content-center">
           <div className="title-2">郊區</div>
           </div>        
@@ -52,11 +58,11 @@ function ChooseAreaPage() {
             <div className="text title-5 white mt-2 mb-2 mr-3 ml-3">台北是一個人口密集、擁有現代基礎設施的大城市，需考慮到公共安全和經濟影響。</div>
             </div>
           </div>
-        <div className={`choose-item-pc h100 col-12 col-md-6 d-flex flex-column ${selectedArea === 'country' ? 'active' : 'inactive'}`} style={{backgroundImage:`url(${Countrybg})`}} onClick={() => onChoose('country')}>
+        <div className={`choose-item-pc h100 col-12 col-md-6 d-flex flex-column ${selectedArea === 'county' ? 'active' : 'inactive'}`} style={{backgroundImage:`url(${Countybg})`}} onClick={() => onChoose('county')}>
         <div className="item d-flex align-items-center justify-content-center">
           <div className="title-3">郊區</div>
           </div>
-          <div className={`description text-center bg-black bdrs-5 ${selectedArea === 'country' ? 'active' : ''}`}>
+          <div className={`description text-center bg-black bdrs-5 ${selectedArea === 'county' ? 'active' : ''}`}>
             <div className="text title-5 white mt-2 mb-2 mr-3 ml-3">花蓮是一個多山多河谷的地方，居民主要從事農業和漁業，對於天氣變化很敏感。</div>
             </div>
         </div>
