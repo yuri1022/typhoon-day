@@ -18,6 +18,7 @@ function MainPage() {
     polling,
     funding,
     environment,
+    typhoonData,
     isOptionSelected,
     selectedOptionIndex,
     answeredMessages,
@@ -118,7 +119,7 @@ function MainPage() {
                   </div>
                 </div>
               )}
-              {showData && <DataModal onClose={closeDataModal} onTyphoonIntersection={handleTyphoonIntersection} />}
+              {showData && <DataModal onClose={closeDataModal} onTyphoonIntersection={handleTyphoonIntersection} typhoonData={typhoonData} />}
               {showHistory && <HistoryModal onClose={closeHistoryModal} history={history} />}
 
             </div>
