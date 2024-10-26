@@ -97,28 +97,29 @@ export const GameProvider = ({ children }) => {
     setSelectedMessage(message);
     setIsOptionSelected(false);
   };
+const handleOptionClick = (option, index) => {
+  if (isOptionSelected) return;
 
-  const handleOptionClick = (option, index) => {
-    if (isOptionSelected) return;
-    setPolling(prev => prev + option.polling);
-    setFunding(prev => prev + option.funding);
-    setEnvironment(prev => prev + option.environment);
-    const newHistoryItem = {
-      message: selectedMessage.comment,
-      option: option.description,
-    };
+  setPolling(prev => prev + option.polling);
+  setFunding(prev => prev + option.funding);
+  setEnvironment(prev => prev + option.environment);
 
-    setHistory(prevHistory => [...prevHistory, newHistoryItem]);
-    setIsOptionSelected(true);
-    setSelectedOptionIndex(index);
-    setShowNotice(true);
-    setAnsweredMessages([...answeredMessages, selectedMessageIndex]);
-
-    if (answeredMessages.length + 1 === messages.length) {
-      setShowTyphoonModal(true);
-    }
+  const newHistoryItem = {
+    message: selectedMessage.comment,
+    option: option.description,
   };
 
+  setHistory(prevHistory => [...prevHistory, newHistoryItem]);
+  setIsOptionSelected(true);
+  setSelectedOptionIndex(index);
+  setShowNotice(true); // 顯示 NoticeModal
+  setAnsweredMessages([...answeredMessages, selectedMessageIndex]);
+
+  if (answeredMessages.length + 1 === messages.length) {
+    // 延遲顯示 TyphoonModal，等待 NoticeModal 關閉
+    setTimeout(() => setShowTyphoonModal(true), 500);
+  }
+};
   const handleCloseNoticeModal = () => {
     setShowNotice(false);
   };
