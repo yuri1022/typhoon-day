@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/typhoon-day/static/css/main.f34da88f.css",
-    "main.js": "/typhoon-day/static/js/main.f83fcd2e.js",
+    "main.css": "/typhoon-day/static/css/main.41469040.css",
+    "main.js": "/typhoon-day/static/js/main.2602e153.js",
     "static/js/739.1a587bbf.chunk.js": "/typhoon-day/static/js/739.1a587bbf.chunk.js",
     "static/js/623.18fb7faf.chunk.js": "/typhoon-day/static/js/623.18fb7faf.chunk.js",
     "static/js/1145.3b4cc2cf.chunk.js": "/typhoon-day/static/js/1145.3b4cc2cf.chunk.js",
@@ -327,8 +327,8 @@
     "static/media/notice.svg": "/typhoon-day/static/media/notice.dd0484cad992d66237a63178587cc5dd.svg",
     "index.html": "/typhoon-day/index.html",
     "static/media/arrowdown.svg": "/typhoon-day/static/media/arrowdown.9689c48b20ceaca95eba851e518abac5.svg",
-    "main.f34da88f.css.map": "/typhoon-day/static/css/main.f34da88f.css.map",
-    "main.f83fcd2e.js.map": "/typhoon-day/static/js/main.f83fcd2e.js.map",
+    "main.41469040.css.map": "/typhoon-day/static/css/main.41469040.css.map",
+    "main.2602e153.js.map": "/typhoon-day/static/js/main.2602e153.js.map",
     "739.1a587bbf.chunk.js.map": "/typhoon-day/static/js/739.1a587bbf.chunk.js.map",
     "623.18fb7faf.chunk.js.map": "/typhoon-day/static/js/623.18fb7faf.chunk.js.map",
     "1145.3b4cc2cf.chunk.js.map": "/typhoon-day/static/js/1145.3b4cc2cf.chunk.js.map",
@@ -627,7 +627,7 @@
     "1192.fc668726.chunk.js.map": "/typhoon-day/static/js/1192.fc668726.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.f34da88f.css",
-    "static/js/main.f83fcd2e.js"
+    "static/css/main.41469040.css",
+    "static/js/main.2602e153.js"
   ]
 }
