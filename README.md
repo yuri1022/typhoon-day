@@ -6,8 +6,7 @@
 - 這是一個互動小遊戲，您在遊戲中扮演颱風來襲時的市長角色，根據您的選擇，解鎖不同的結局。
 - 登入帳號後，你還可以將遊戲結局保存，並在收集頁面查看你解鎖的結局！
 
-- Demo 網址 : [待補充](待補充)
-- Demo Video (電腦版) : [待補充](待補充)
+- Demo 網址 : [https://yuri1022.github.io/typhoon-day/](https://yuri1022.github.io/typhoon-day/)
 - Back-End Link : [https://github.com/Tommy0901/typhoon-day-mayor](https://github.com/Tommy0901/typhoon-day-mayor)
 
 
@@ -76,6 +75,5 @@ http://localhost:3000/
 ### PM: @omega-phi
 ### Front-End : @omega-phi @yuri1022
 ### Back-End : @Tommy0901
-
 ### UI/UX : 北極
 
