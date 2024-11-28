@@ -27,6 +27,7 @@ export const GameProvider = ({ children }) => {
   const [holidayNumber, setHolidayNumber] = useState(0);
   const [events, setEvents] = useState([]);
   const [eventTriggered, setEventTriggered] = useState(false);
+  const [typhoonData, setTyphoonData] = useState(null);
 
  useEffect(() => {
     APIService.getMainScreen()
@@ -41,6 +42,18 @@ export const GameProvider = ({ children }) => {
       .catch(error => {
         console.error('Error fetching messages:', error);
       });
+
+      APIService.getTyphoonPredict()
+      .then(response => response.json())
+      .then(res => {
+        if (res.status === 'success') {
+          setTyphoonData(res.data);
+        } else {
+          console.error(res.message);
+        }
+      }).catch(error => {
+        console.error('Error fetching messages:', error);
+      });;
 
   }, []);
 
@@ -124,37 +137,47 @@ const handleOptionClick = (option, index) => {
     setShowNotice(false);
   };
 
-  const checkTyphoonCityIntersection = () => {
-   return typhoonIntersects;
+  const checkTyphoonCityIntersection = async () => {
+    const res = await APIService.getTyphoonActual(typhoonData.id);
+    const result = await res.json();
+    if(result.status === 'success') {
+      const selectedArea = localStorage.getItem('typhoonday-selectedArea') === 'city' ? 'Taipei' : 'Hualien';
+      return result.data.meetStandard.includes(selectedArea);
+    }
+    return false;
   };
 
   const handleTyphoonDecision = (decision) => {
   setShowTyphoonModal(false);
-  if (decision) {
-    setHolidayNumber(prev => prev + 1);
-    if (checkTyphoonCityIntersection()) {
-    setFunding(prev => prev - 2);
-    setPolling(prev => prev + 2);
-    const secondEnding=[10,13,16];
-    const selectedEnding = secondEnding[Math.floor(Math.random() * secondEnding.length)];
-    console.log('Selected Ending for correct decision:', selectedEnding);
-    fetchEnding(selectedEnding);
-    setShowNextRoundModal(true); //有經過有放假：民調+經濟-，解鎖一個好結局遊戲繼續
-    } else {  
-    fetchEnding(11); //沒經過卻放假了:提前宣布颱風假過於保守，遊戲繼續
-    setShowNextRoundModal(true); 
-    }
-
-  } else { //沒放假
-    if (checkTyphoonCityIntersection()) {
-      fetchEnding(14); //有經過，但沒放假:未宣布引發混亂，遊戲繼續
+  checkTyphoonCityIntersection().then(actual => {
+    if (decision) {
+      setHolidayNumber(prev => prev + 1);
+      if (actual) {
+      setFunding(prev => prev - 2);
+      setPolling(prev => prev + 2);
+      const secondEnding=[10,13,16];
+      const selectedEnding = secondEnding[Math.floor(Math.random() * secondEnding.length)];
+      console.log('Selected Ending for correct decision:', selectedEnding);
+      fetchEnding(selectedEnding);
+      setShowNextRoundModal(true); //有經過有放假：民調+經濟-，解鎖一個好結局遊戲繼續
+      } else {  
+      fetchEnding(11); //沒經過卻放假了:提前宣布颱風假過於保守，遊戲繼續
       setShowNextRoundModal(true); 
-    } else {  
-      setFunding(prev => prev + 2); //沒經過也沒放假：環境-經濟+
-      setEnvironment(prev => prev - 2);
-      setShowNextRoundModal(true);
+      }
+  
+    } else { //沒放假
+      if (actual) {
+        fetchEnding(14); //有經過，但沒放假:未宣布引發混亂，遊戲繼續
+        setShowNextRoundModal(true); 
+      } else {  
+        setFunding(prev => prev + 2); //沒經過也沒放假：環境-經濟+
+        setEnvironment(prev => prev - 2);
+        setShowNextRoundModal(true);
+      }
     }
-  }
+  }).catch(err => {
+    console.error('Error fetching actual result:', err);
+  })
 };
 
   const handleTyphoonIntersection = (intersection) => {
@@ -256,6 +279,7 @@ const fetchEvent = (eventId) => {
         polling,
         funding,
         environment,
+        typhoonData,
         isOptionSelected,
         selectedOptionIndex,
         answeredMessages,

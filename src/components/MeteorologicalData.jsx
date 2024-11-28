@@ -7,7 +7,7 @@ import { intersects } from '@arcgis/core/geometry/geometryEngine.js';
 import { CityRange } from '../assets/data/CityRange';
 import APIService from '../service/APIService.ts';
 
-function DataModal({ onClose, onTyphoonIntersection }) {
+function DataModal({ onClose, onTyphoonIntersection, typhoonData }) {
   var count = 0;
   const [typhoonIntersects, setTyphoonIntersects] = useState(false);
 
@@ -46,41 +46,31 @@ function DataModal({ onClose, onTyphoonIntersection }) {
 
       const cityPolygon = drawCity(view, selectedArea === 'city' ? CityRange.Taipei : CityRange.Hualien);
 
-      // Get predict data
-      APIService.getTyphoonPredict()
-        .then(response => response.json())
-        .then(res => {
-          if (res.status === 'success') {
-            var prevLocation = null;
+      var prevLocation = null;
 
-            res.data.data.forEach(typhoonLocation => {
-              console.log(typhoonLocation);
-              drawCircle(view, typhoonLocation.longitude, typhoonLocation.latitude, typhoonLocation.radius, 'solid');
-              drawCircle(view, typhoonLocation.longitude, typhoonLocation.latitude, 10, 'solid');   // 畫颱風中心的圓
+      // 過去路線
+      typhoonData.data.forEach(typhoonLocation => {
+        console.log(typhoonLocation);
+        drawCircle(view, typhoonLocation.longitude, typhoonLocation.latitude, typhoonLocation.radius, 'solid');
+        drawCircle(view, typhoonLocation.longitude, typhoonLocation.latitude, 10, 'solid');   // 畫颱風中心的圓
 
-              if(prevLocation) {
-                drawLine(view, prevLocation[0], prevLocation[1], typhoonLocation.longitude, typhoonLocation.latitude, 'solid')
-              }
-              prevLocation = [typhoonLocation.longitude, typhoonLocation.latitude]
-            });
+        if(prevLocation) {
+          drawLine(view, prevLocation[0], prevLocation[1], typhoonLocation.longitude, typhoonLocation.latitude, 'solid')
+        }
+        prevLocation = [typhoonLocation.longitude, typhoonLocation.latitude]
+      });
 
-            res.data.predictData.forEach(predictLocation => {
-              console.log(predictLocation);
-              drawCircle(view, predictLocation.longitude, predictLocation.latitude, predictLocation.radius, 'dash');
-              drawCircle(view, predictLocation.longitude, predictLocation.latitude, 10, 'dash');  // 畫颱風中心的圓
+      // 預估路線
+      typhoonData.predictData.forEach(predictLocation => {
+        console.log(predictLocation);
+        drawCircle(view, predictLocation.longitude, predictLocation.latitude, predictLocation.radius, 'dash');
+        drawCircle(view, predictLocation.longitude, predictLocation.latitude, 10, 'dash');  // 畫颱風中心的圓
 
-              if(prevLocation) {
-                drawLine(view, prevLocation[0], prevLocation[1], predictLocation.longitude, predictLocation.latitude, 'dash')
-              }
-              prevLocation = [predictLocation.longitude, predictLocation.latitude]
-            });
-          } else {
-            console.error(res.message);
-          }
-        })
-        .catch(error => {
-          console.error(error);
-        });;
+        if(prevLocation) {
+          drawLine(view, prevLocation[0], prevLocation[1], predictLocation.longitude, predictLocation.latitude, 'dash')
+        }
+        prevLocation = [predictLocation.longitude, predictLocation.latitude]
+      });
 
       //const typhoonCircle = drawCircle(view, 122, 23, 100, 'solid');
 
